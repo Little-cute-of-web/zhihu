@@ -1,4 +1,4 @@
-# zhihu
+# zhi
 
 ## Project setup
 ```
