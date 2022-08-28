@@ -43,6 +43,8 @@
   <button @click="changeLang('en')">修改英文</button>
   <hr>
   <setup-sugger></setup-sugger>
+  <!-- <message text="we are the world" @showText="showText"></message> -->
+  <message :user="user" @changeName="changeName"></message>
 </template>
 
 
@@ -52,6 +54,7 @@ import Demo2 from './Demo2.vue';
 import AsyncShow from './AsyncShow.vue';
 import DogShow from './DogShow.vue';
 import SetupSugger from './SetupSugger.vue';
+import Message from './Message.vue';
 // import {defineComponent} from 'vue';
 import useMousePosition from '../hooks/useMousePosition';
 // import useURLLoader from '../hooks/useURLLoader';
@@ -162,7 +165,18 @@ watch([greetings,()=>data.count],()=>{
   const changeLang = (type:string)=>{
     lang.value = type
   }
-
+  // function showText(text: string){
+  //   console.log(text);
+  // }
+  //父组件传递的数据为对象类型  非基本类型
+  const user = {
+    name:'one',
+    age:27
+  }
+function changeName(name: string){
+  console.log(name);
+  
+}
 </script>
 
 <style lang="scss" scoped></style>
