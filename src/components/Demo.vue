@@ -17,15 +17,38 @@
   <h1>{{x}}</h1>
   <h1>{{y}}</h1>
   <hr>
-  <h2 v-if="loading">Loading...!</h2>
+  <!-- <h2 v-if="loading">Loading...!</h2> -->
   <!-- <h2 v-if="loaded" ><img :src="result.message" alt=""></h2> -->
-  <h2 v-if="loaded" ><img :src="result[0].url" alt=""></h2>
+  <!-- <h2 v-if="loaded" ><img :src="result[0]?.url" alt=""></h2> -->
+  <hr>
+  <button @click="showModal">显示对话窗</button>
+  <demo2 :isShow="modalIsShow" @close-modal =closeModal></demo2>
+  <hr>
+  <Suspense>
+    <template #default>
+      <div>
+        <async-show></async-show>
+      <dog-show></dog-show>
+      </div>
+    </template>
+    <template #fallback>
+      isLoading!!!
+    </template>
+  </Suspense>
+  <hr>
+  <!-- 展示error标签 -->
+  <p>{{error}}</p>
 </template>
 
+
 <script lang="ts" setup>
+//引入组件
+import Demo2 from './Demo2.vue';
+import AsyncShow from './AsyncShow.vue';
+import DogShow from './DogShow.vue';
 // import {defineComponent} from 'vue';
 import useMousePosition from '../hooks/useMousePosition';
-import useURLLoader from '../hooks/useURLLoader';
+// import useURLLoader from '../hooks/useURLLoader';
 import {
   ref,
   computed,
@@ -37,8 +60,13 @@ import {
   // onUnmounted,
   onRenderTriggered,
   onRenderTracked,
+  onErrorCaptured
 } from "vue";
-
+const error = ref(null)
+onErrorCaptured((e:any)=>{
+  error.value=e;
+return true;
+});
 onUpdated(() => {
   console.log("修改成功");
 });
@@ -56,16 +84,16 @@ interface dataProps {
   // arr: number[];
   person: { roleName?: string };
 }
-interface dogResult {
-  message:string;
-  status:string
-}
-interface catResult {
-  id:string;
-  url:string;
-  width:number;
-  height:number;
-}
+// interface dogResult {
+//   message:string;
+//   status:string
+// }
+// interface catResult {
+//   id:string;
+//   url:string;
+//   width:number;
+//   height:number;
+// }
 // let count = ref(0);
 // function plus(){
 //   count.value++;
@@ -97,6 +125,7 @@ watch([greetings,()=>data.count],()=>{
   document.title = "updated" + greetings.value+data.count;
 });
   const {x,y} = useMousePosition();
+  //狗请求
   // const {result,loading,loaded} = useURLLoader<dogResult>('https://dog.ceo/api/breeds/image/random');
   // watch(result,()=>{
   //   if(result.value){
@@ -104,13 +133,21 @@ watch([greetings,()=>data.count],()=>{
       
   //   }
   // })
-  const {result,loading,loaded}= useURLLoader<catResult[]>('https://api.thecatapi.com/v1/images/search?limit=1')
-  watch(result,()=>{
-    if(result.value){
-      console.log('value',result.value[0].url);
+  //猫请求
+  // const {result,loading,loaded}= useURLLoader<catResult[]>('https://api.thecatapi.com/v1/images/search?limit=1')
+  // watch(result,()=>{
+  //   if(result.value){
+  //     console.log('value',result.value[0].url);
       
-    }
-  })
+  //   }
+  // })
+  const modalIsShow = ref(false);
+  const showModal = ()=>{
+    modalIsShow.value = true;
+  }
+  const closeModal = ()=>{
+    modalIsShow.value=false
+  }
 // export default{
 //   name:'Demo',
 // data(){
