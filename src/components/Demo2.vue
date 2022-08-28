@@ -5,6 +5,7 @@
       <button @click="buttonClose">关闭</button>
       <hr>
       <h2 class="china">{{lang}}</h2>
+      <h2>{{ currentUser && currentUser.name}}</h2>
     </div>
   </teleport>
 </template>
@@ -34,10 +35,13 @@
       }
       //拿数据provide    这个会改原始定义的响应式数据
       const lang = inject('lang')
+      let currentUser = inject<{name:string}>('currentUser');
       return {
         buttonClose,
-        lang
-      }
+        lang,
+        currentUser
+      };
+     
     }
   })
 
@@ -55,6 +59,6 @@
   transform: translate(-50%, -50%);
 }
 .china{
-  font-size: 66px;
+  font-size: 16px;
 }
 </style>

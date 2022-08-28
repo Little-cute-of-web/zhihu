@@ -41,6 +41,8 @@
   <!-- 修改 provide  lang -->
   <button @click="changeLang('ch')">修改中文</button>
   <button @click="changeLang('en')">修改英文</button>
+  <hr>
+  <setup-sugger></setup-sugger>
 </template>
 
 
@@ -49,6 +51,7 @@
 import Demo2 from './Demo2.vue';
 import AsyncShow from './AsyncShow.vue';
 import DogShow from './DogShow.vue';
+import SetupSugger from './SetupSugger.vue';
 // import {defineComponent} from 'vue';
 import useMousePosition from '../hooks/useMousePosition';
 // import useURLLoader from '../hooks/useURLLoader';
