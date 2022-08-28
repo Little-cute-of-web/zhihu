@@ -38,6 +38,9 @@
   <hr>
   <!-- 展示error标签 -->
   <p>{{error}}</p>
+  <!-- 修改 provide  lang -->
+  <button @click="changeLang('ch')">修改中文</button>
+  <button @click="changeLang('en')">修改英文</button>
 </template>
 
 
@@ -60,7 +63,8 @@ import {
   // onUnmounted,
   onRenderTriggered,
   onRenderTracked,
-  onErrorCaptured
+  onErrorCaptured,
+provide
 } from "vue";
 const error = ref(null)
 onErrorCaptured((e:any)=>{
@@ -81,7 +85,6 @@ interface dataProps {
   double: number;
   plus: () => void;
   numbers: number[];
-  // arr: number[];
   person: { roleName?: string };
 }
 // interface dogResult {
@@ -148,16 +151,15 @@ watch([greetings,()=>data.count],()=>{
   const closeModal = ()=>{
     modalIsShow.value=false
   }
-// export default{
-//   name:'Demo',
-// data(){
-//   return {
-//     count:0
-//   }
-// },
-// methods:{
-// }
-// }
+  //provide数据传递
+  // provide('lang','chinese');
+
+  const lang = ref('en');
+  provide('lang',lang);
+  const changeLang = (type:string)=>{
+    lang.value = type
+  }
+
 </script>
 
 <style lang="scss" scoped></style>
