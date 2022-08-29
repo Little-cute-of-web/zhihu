@@ -3,16 +3,41 @@
     <!-- <demo></demo> -->
     <!-- <demo2></demo2> -->
     <global-header :user="user"></global-header>
-    <column-list :list="list"></column-list>
+    <form>
+      <div class="mb-3">
+        <label for="exampleInputEmail1">Email address</label>
+        <input
+          v-model="emailRef.val"
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          @click="validateEmail"
+          
+        />
+        <div class="form-text" v-if="emailRef.error">
+          {{ emailRef.message }}
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+        />
+      </div>
+    </form>
+    <!-- <column-list :list="list"></column-list> -->
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 //引入外部bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 //项目组件导入
-import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
-import GlobalHeader,{UserProps} from './components/GlobalHeader.vue';
+import { ColumnProps } from "./components/ColumnList.vue";
+import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
 const testData: ColumnProps[] = [
   {
     id: 1,
@@ -29,24 +54,38 @@ const testData: ColumnProps[] = [
     //   "https://img2.baidu.com/it/u=2560207403,1062715832&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500",
   },
 ];
-const testUser: UserProps={
-  isLogin:true,
-  name:'one'
-}
+const testUser: UserProps = {
+  isLogin: true,
+  name: "one",
+};
+//首页登录
 //之前练习组件导入
 // import Demo from './components/Demo.vue';
 // import Demo2 from './components/Demo2.vue';
 export default defineComponent({
   name: "App",
   setup() {
+    const emailRef = reactive({
+      val: "",
+      error: false,
+      message: "",
+    });
+    const validateEmail = () => {
+      if (emailRef.val === "") {
+        emailRef.error = true;
+        emailRef.message = "can not be empty";
+      }
+    };
     return {
       list: testData,
-      user:testUser
+      user: testUser,
+      emailRef,
+      validateEmail,
     };
   },
   components: {
-    ColumnList,
-    GlobalHeader
+    // ColumnList,
+    GlobalHeader,
   },
 });
 </script>

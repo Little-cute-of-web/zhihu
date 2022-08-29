@@ -53,7 +53,7 @@
       //这个只有mounted的时候执行一次。所以需要一直监视这个值的变化watch
       const isClickOutside =  useClickOutside(dropdownRef);
       watch(isClickOutside,()=>{
-        isClickOutside.value&&isShow.value?isShow.value= false:isShow.value= true;
+        isClickOutside.value&&isShow.value?isShow.value= false:null;
       })
       
       // const dropdownHandler = (e: MouseEvent)=>{
