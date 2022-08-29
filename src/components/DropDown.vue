@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" @click="dropdownHandler" ref="dropdownRef">
     <!-- <button
       class="btn btn-secondary dropdown-toggle"
       type="button"
@@ -31,9 +31,11 @@
 </template>
 
 <script lang="ts">
-  import {defineComponent,ref} from 'vue';
+  import {defineComponent,ref,watch} from 'vue';
   //导入组件
 
+  //导入useClickOutside函数
+  import useClickOutside from '../hooks/useClickOutside';
   export default defineComponent({
     name:'DropDown',
     props:{
@@ -44,12 +46,38 @@
     },
     setup(){
       const isShow = ref(false)
+      const dropdownRef = ref<null | HTMLElement>(null)
       const userToggle = ()=>{
         isShow.value = ! isShow.value;
       }
+      //这个只有mounted的时候执行一次。所以需要一直监视这个值的变化watch
+      const isClickOutside =  useClickOutside(dropdownRef);
+      watch(isClickOutside,()=>{
+        isClickOutside.value&&isShow.value?isShow.value= false:isShow.value= true;
+      })
+      
+      // const dropdownHandler = (e: MouseEvent)=>{
+      //   console.log(e);
+      //   if(dropdownRef.value){
+      //     // console.log(dropdownRef.value);
+      //     if(!dropdownRef.value.contains(e.target as HTMLElement)&&isShow){
+      //       isShow.value= false;
+      //     }
+          
+      //   }
+        
+      // }
+      // onMounted(()=>{
+      //   document.addEventListener('click',dropdownHandler)
+      // })
+      // onUnmounted(()=>{
+      //   document.removeEventListener('click',dropdownHandler)
+      // })
       return {
         isShow,
-        userToggle
+        userToggle,
+        // dropdownHandler,
+        dropdownRef
       }
     },
     components:{
