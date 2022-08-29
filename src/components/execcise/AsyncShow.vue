@@ -6,6 +6,10 @@
   import {defineComponent} from 'vue';
   export default defineComponent({
     setup(){
+    //  interface Res {
+    //   res:number
+    //  }
+      let res;
       return new Promise((resolve)=>{
         setTimeout(()=>{
           return resolve({
