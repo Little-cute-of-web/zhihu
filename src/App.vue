@@ -70,17 +70,23 @@ export default defineComponent({
       error: false,
       message: "",
     });
+    const emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const validateEmail = () => {
       if (emailRef.val === "") {
         emailRef.error = true;
         emailRef.message = "can not be empty";
+      }else if(!emailReg.test(emailRef.val)){
+        emailRef.error = true;
+        emailRef.message = 'should be valid message'
       }
     };
+   
     return {
       list: testData,
       user: testUser,
       emailRef,
       validateEmail,
+      emailReg
     };
   },
   components: {
