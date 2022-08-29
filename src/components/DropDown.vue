@@ -21,15 +21,19 @@
     aria-labelledby="dropdownMenuButton" 
     :class="{active:isShow}"
     >
-      <a class="dropdown-item" href="#">新建文章</a>
+      <!-- <a class="dropdown-item" href="#">新建文章</a>
       <a class="dropdown-item" href="#">编辑资料</a>
-      <a class="dropdown-item" href="#">我的收藏</a>
+      <a class="dropdown-item" href="#">我的收藏</a> -->
+      <!-- 传入自定义模班内容 -->
+      <slot></slot>
     </div> 
   </div>
 </template>
 
 <script lang="ts">
   import {defineComponent,ref} from 'vue';
+  //导入组件
+
   export default defineComponent({
     name:'DropDown',
     props:{
@@ -47,6 +51,9 @@
         isShow,
         userToggle
       }
+    },
+    components:{
+      
     }
   })
 </script>
