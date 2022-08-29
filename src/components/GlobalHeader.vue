@@ -4,16 +4,25 @@
     <ul v-if="!user.isLogin" class="list-inline mb-0">
       <li class="list-inline-item">
         <a href="#" class="btn btn-outline-light my-2">登录</a>
+      </li>
+      <li class="list-inline-item">
         <a href="#" class="btn btn-outline-light my-2">注册</a>
       </li>
-      <li class="list-inline-item">And another one.</li>
     </ul>
+    <ul v-else class="list-inline mb-0">
+      <li class="list-inline-item">
+        <!-- <a href="#" class="btn btn-outline-light my-2">你好，{{ user.name }}</a> -->
+        <drop-down :title="`你好，${user.name}`"></drop-down>
+      </li>
+    </ul>
+    
   </nav>
-  div
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+//导入组件
+import DropDown from './DropDown.vue';
 export interface UserProps {
   isLogin: boolean;
   name?: string;
@@ -27,6 +36,13 @@ export default defineComponent({
       require: true,
     },
   },
+  components:{
+    DropDown
+  }
 });
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  .navbar{
+    padding:0 20px;
+  }
+</style>

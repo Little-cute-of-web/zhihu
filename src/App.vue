@@ -2,6 +2,7 @@
   <div class="container">
     <!-- <demo></demo> -->
     <!-- <demo2></demo2> -->
+    <global-header :user="user"></global-header>
     <column-list :list="list"></column-list>
   </div>
 </template>
@@ -11,6 +12,7 @@ import { defineComponent } from "vue";
 import 'bootstrap/dist/css/bootstrap.min.css'
 //项目组件导入
 import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
+import GlobalHeader,{UserProps} from './components/GlobalHeader.vue';
 const testData: ColumnProps[] = [
   {
     id: 1,
@@ -27,6 +29,10 @@ const testData: ColumnProps[] = [
     //   "https://img2.baidu.com/it/u=2560207403,1062715832&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500",
   },
 ];
+const testUser: UserProps={
+  isLogin:true,
+  name:'one'
+}
 //之前练习组件导入
 // import Demo from './components/Demo.vue';
 // import Demo2 from './components/Demo2.vue';
@@ -35,10 +41,12 @@ export default defineComponent({
   setup() {
     return {
       list: testData,
+      user:testUser
     };
   },
   components: {
     ColumnList,
+    GlobalHeader
   },
 });
 </script>
