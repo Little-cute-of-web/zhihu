@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { defineComponent ,ref} from 'vue'
+import { useRouter } from "vue-router";
 //导入组件
 // import GlobalHeader ,{ UserProps } from "../components/GlobalHeader.vue";
 import ValidateForm from '../components/ValidateForm.vue';
@@ -41,11 +42,15 @@ import { RulesProps } from '../components/ValidateInput.vue';
 
 export default defineComponent({
   setup () {
+    //初始化router
+    const router = useRouter();
     //email password 初始值
     const emailVal = ref("");
     const passwordVal = ref("");
     const formSubmit = (res: boolean) => {
       console.log(res);
+      //验证通过跳转到首页
+      router.push({name:'column',params:{id:1}})
     };
     //邮箱验证规则
     const emailRules: RulesProps = [
