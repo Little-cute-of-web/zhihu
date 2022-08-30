@@ -12,7 +12,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,reactive,PropType } from 'vue'
+import { defineComponent,reactive,PropType,onMounted } from 'vue'
+//导入父组件mitt
+import {emitter} from './ValidateForm.vue';
 //邮箱
 const emailReg =  /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 interface RuleProp {
@@ -60,13 +62,19 @@ export default defineComponent({
           return passed
         })
         inputRef.error  =!allPassed;
+        return allPassed;
       }
+      return true;
     }
     const updateValue=(e: Event)=>{
       const targetValue = (e.target as HTMLInputElement).value;
       inputRef.val = targetValue;
       context.emit('update:modelValue',targetValue)
     }
+    onMounted(()=>{
+      // console.log();     
+      emitter.emit('form-item-created',validateInput)
+    })
 
     return {
       inputRef,
