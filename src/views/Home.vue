@@ -21,7 +21,7 @@ import { defineComponent } from "vue";
 //导入组件
 import ColumnList from "../components/ColumnList.vue";
 //导入模拟数据columnList
-import testData from "../json/testData.json";
+import {testData} from "../json/testData";
 export default defineComponent({
   name: "Home",
   setup() {

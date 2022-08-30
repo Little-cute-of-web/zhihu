@@ -28,8 +28,8 @@ import GlobalHeader ,{ UserProps } from "./components/GlobalHeader.vue";
 // import Home from "./views/Home.vue";
 //输入测试用户
 const testUser: UserProps = {
-  isLogin: true,
-  name: "one",
+  isLogin: false,
+  // name: "one",
 };
 export default defineComponent({
   name: "App",
@@ -46,4 +46,11 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+  // .list-inline{
+  //   display: flex;
+  // }
+  // .list-line-item{
+  //   flex:1;
+  // }
+</style>
