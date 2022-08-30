@@ -1,17 +1,86 @@
 <template>
-  <div>
-
-  </div>
+   <div class="container">
+    <!-- <global-header :user="user"></global-header> -->
+ <validate-form action="" @form-submit="formSubmit">
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <validate-input
+          autocomplete="username"
+          :rules="emailRules"
+          v-model="emailVal"
+          type="text"
+          placeholder="请输入邮箱地址"
+          ref="inputRef"
+        ></validate-input>
+      </div>
+      <div class="mb-3">
+        <label for="form-label">Password</label>
+        <validate-input
+          type="password"
+          autocomplete="current-password"
+          v-model="passwordVal"
+          :rules="passwordRules"
+          placeholder="请输入密码"
+        ></validate-input>
+      </div>
+      <template #submit>
+        <span class="btn btn-danger">提交</span>
+      </template>
+    </validate-form>
+   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent ,ref} from 'vue'
+//导入组件
+// import GlobalHeader ,{ UserProps } from "../components/GlobalHeader.vue";
+import ValidateForm from '../components/ValidateForm.vue';
+import ValidateInput from "../components/ValidateInput.vue";
+//导入RulesProps
+import { RulesProps } from '../components/ValidateInput.vue';
 
 export default defineComponent({
   setup () {
-    
+    //email password 初始值
+    const emailVal = ref("");
+    const passwordVal = ref("");
+    const formSubmit = (res: boolean) => {
+      console.log(res);
+    };
+    //邮箱验证规则
+    const emailRules: RulesProps = [
+      {
+        type: "required",
+        message: "电子邮箱不能为空",
+      },
+      {
+        type: "email",
+        message: "请输入正确格式",
+      },
+    ];
+    //密码验证规则
+    const passwordRules: RulesProps = [
+      {
+        type: "required",
+        message: "密码不能为空",
+      },
+      {
+        type: "password",
+        message: "至少8位",
+      },
+    ];
 
-    return {}
+    return {
+      formSubmit,
+      emailRules,
+      passwordRules,
+      emailVal,
+      passwordVal
+    }
+  },
+  components:{
+    ValidateForm,
+    ValidateInput
   }
 })
 </script>
