@@ -12,11 +12,13 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      // "node"
+      "node"
     ],
+    "typeRoots": [ "./node_modules/@types" ],
     "paths": {
       "@/*": [
         "src/*"
@@ -27,7 +29,7 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
   },
   "include": [
     "src/**/*.ts",
@@ -40,6 +42,11 @@
     "node_modules"
   ],
   // "references": [{ "path": "./tsconfig.node.json" }],
-  "type":["node"],
-  "extensions": ["*", ".js", ".vue", ".json"] 
+  
+  "extensions": [
+    "*",
+    ".js",
+    ".vue",
+    ".json"
+  ]
 }
