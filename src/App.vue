@@ -32,7 +32,10 @@
           class="form-control"
           id="exampleInputPassword1"
         /> -->
-        <validate-input v-model="passwordVal" :rules="passwordRules"></validate-input>
+        <validate-input v-model="passwordVal" 
+        :rules="passwordRules"
+        placeholder="请输入密码"
+        ></validate-input>
       </div>
     </form>
     <!-- <column-list :list="list"></column-list> -->
