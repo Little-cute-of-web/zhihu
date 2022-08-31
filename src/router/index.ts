@@ -4,14 +4,15 @@ const Home = ()=>import('../views/Home.vue');
 const Login = ()=>import('../views/Login.vue')
 const ColumnDetail  =()=>import('../views/ColumnDetail.vue')
 const routes: Array<RouteRecordRaw> = [
+  // {
+  //   path:'',
+  //   redirect:'/home',
+  //   name:'home',
+  //   component:Home,
+  //   children:[]
+  // },
   {
-    path:'',
-    redirect:'/home',
-    name:'home',
-    component:Home,
-    children:[]
-  },{
-    path:'/home',
+    path:'/',
     name:'home',
     component:Home,
   },{

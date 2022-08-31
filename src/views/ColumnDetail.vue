@@ -9,6 +9,7 @@
       <p class="text-muted">{{column?.description}}</p>
     </div>
   </div>
+  <post-list :list="list"></post-list>
 </div>
 </template>
 
@@ -16,6 +17,8 @@
 import { defineComponent } from 'vue'
 import { useRoute } from "vue-router";
 import { testData,testPosts } from "../json/testData";
+//导入组件
+import PostList from "../components/PostList.vue";
 export default defineComponent({
   name:'ColumnDetail',
   setup () {
@@ -28,6 +31,9 @@ export default defineComponent({
       column,
       list
     }
+  },
+  components:{
+    PostList
   }
 })
 </script>

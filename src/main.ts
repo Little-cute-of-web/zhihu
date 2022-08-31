@@ -5,5 +5,5 @@ import router from './router'
 import store from './store'
 
 const app =createApp(App);
-app.provide('currentUser',{name:'one'});
+// app.provide('currentUser',{name:'one'});
 app.use(store).use(router).mount('#app')

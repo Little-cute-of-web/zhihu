@@ -17,16 +17,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
+//导入store
+import { useStore } from "vuex";
+//导入全局数据泛型
+import { GlobalDataProps } from "../store";
 //导入组件
 import ColumnList from "../components/ColumnList.vue";
 //导入模拟数据columnList
-import {testData} from "../json/testData";
+// import {testData} from "../json/testData";
 export default defineComponent({
   name: "Home",
   setup() {
+    const store = useStore<GlobalDataProps>();
+    const list = computed(() => {
+      return store.state.columns;
+    });
     return {
-      list: testData,
+      list,
     };
   },
   components: {
