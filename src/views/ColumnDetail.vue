@@ -14,18 +14,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent,computed } from 'vue'
 import { useRoute } from "vue-router";
-import { testData,testPosts } from "../json/testData";
+//导入store
+import { useStore } from "vuex";
+//导入store数据泛型
+import { GlobalDataProps } from "../store";
+// import { testData,testPosts } from "../json/testData";
 //导入组件
 import PostList from "../components/PostList.vue";
+
 export default defineComponent({
   name:'ColumnDetail',
   setup () {
+    const store = useStore<GlobalDataProps>()
     const route = useRoute()
+    //获取总的colmns
+    const columns = computed(()=>{
+      return store.state.columns
+    })
+    //获取所有的postList数据
+    const posts = computed(()=>{
+      return store.state.posts
+    })
     const currentId = +route.params.id
-    const column = testData.find(item=>item.id===currentId)
-    const list = testPosts.filter(post=>post.columnId===currentId)
+    const column = columns.value.find(item=>item.id===currentId)
+    const list = posts.value.filter(post=>post.columnId===currentId)
     return {
       route,
       column,
