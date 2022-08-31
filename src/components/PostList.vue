@@ -29,10 +29,8 @@ export default defineComponent({
       type:Array as PropType<PostProps[]>
     }
   },
-  setup (props) {
-    console.log(props.list);
+  setup () {
     return {
-      // posts:props.list
     }
   }
 })

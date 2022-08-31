@@ -33,8 +33,13 @@ export default defineComponent({
     const list = computed(() => {
       return store.state.columns;
     });
+    //id >2 的文章
+    const bigColumnsLen = computed(()=>{
+      return store.getters.bigColumnsLen
+    })
     return {
       list,
+      bigColumnsLen
     };
   },
   components: {

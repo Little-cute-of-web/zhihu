@@ -2,7 +2,7 @@
   <div class="container">
     <global-header :user="user"></global-header>
     <!-- <home></home> -->
-    <router-link to="/home"></router-link>
+    <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
@@ -19,11 +19,11 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent,computed } from "vue";
+import { defineComponent, computed } from "vue";
 //导入store
 import { useStore } from "vuex";
 //导入全局数据泛型
-import {GlobalDataProps} from './store';
+import { GlobalDataProps } from "./store";
 //引入外部bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 //导入header组件
@@ -39,12 +39,14 @@ import GlobalHeader from "./components/GlobalHeader.vue";
 export default defineComponent({
   name: "App",
   setup() {
-    const store = useStore<GlobalDataProps>()
-      const user = computed(()=>{
-        return store.state.user
-      })
+    const store = useStore<GlobalDataProps>();
+    const user = computed(() => {
+      return store.state.user;
+    });
+    // console.log(user.value);
+    
     return {
-      user
+      user,
     };
   },
   components: {

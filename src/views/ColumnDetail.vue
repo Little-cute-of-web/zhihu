@@ -2,10 +2,10 @@
 <div class="column-detail-page w-75 mx-auto">
   <div class="column-info row mb-4 border-bottom pb-4 align-items-center">
     <div class="col-3 text-center">
-      <img :src="column!.avatar" alt="column.title" class="rounded-circle">
+      <img :src="column?.avatar" :alt="column?.title" class="rounded-circle">
     </div>
     <div class="col-9">
-      <h4>{{column!.title}}</h4>
+      <h4>{{column?.title}}</h4>
       <p class="text-muted">{{column?.description}}</p>
     </div>
   </div>
@@ -29,17 +29,28 @@ export default defineComponent({
   setup () {
     const store = useStore<GlobalDataProps>()
     const route = useRoute()
-    //获取总的colmns
-    const columns = computed(()=>{
-      return store.state.columns
-    })
+    //获取总的columns
+    // const columns = computed(()=>{
+    //   return store.state.columns
+    // })
     //获取所有的postList数据
-    const posts = computed(()=>{
-      return store.state.posts
-    })
+    // const posts = computed(()=>{
+    //   return store.state.posts
+    // })
     const currentId = +route.params.id
-    const column = columns.value.find(item=>item.id===currentId)
-    const list = posts.value.filter(post=>post.columnId===currentId)
+
+    // const column = columns.value.find(item=>item.id===currentId)
+    // const list = posts.value.filter(post=>post.columnId===currentId)
+
+    //使用getters
+    const column = computed(() => {
+      let res =store.getters.getColumnsById(currentId)
+      return res;
+    })
+    const list = computed(()=>{
+      let res = store.getters.getPostsByCid(currentId)
+      return res;
+    })
     return {
       route,
       column,
