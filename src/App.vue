@@ -19,23 +19,32 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent,computed } from "vue";
+//导入store
+import { useStore } from "vuex";
+//导入全局数据泛型
+import {GlobalDataProps} from './store';
 //引入外部bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 //导入header组件
-import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
+import GlobalHeader from "./components/GlobalHeader.vue";
 //导入home组件
 // import Home from "./views/Home.vue";
 //输入测试用户
-const testUser: UserProps = {
-  isLogin: false,
-  // name: "one",
-};
+// const testUser: UserProps = {
+//   isLogin: false,
+//   name: "one",
+// };
+
 export default defineComponent({
   name: "App",
   setup() {
+    const store = useStore<GlobalDataProps>()
+      const user = computed(()=>{
+        return store.state.user
+      })
     return {
-      user: testUser,
+      user
     };
   },
   components: {

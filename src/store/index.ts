@@ -21,6 +21,9 @@ export default createStore<GlobalDataProps>({
   getters: {
   },
   mutations: {
+    login(state){
+      state.user = {...state.user,isLogin:true,name:'one'}
+    }
   },
   actions: {
   },
