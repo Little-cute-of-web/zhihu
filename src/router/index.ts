@@ -3,18 +3,20 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const Home = ()=>import('../views/Home.vue');
 const Login = ()=>import('../views/Login.vue')
 const ColumnDetail  =()=>import('../views/ColumnDetail.vue')
+const CreatePost = ()=>import('../views/CreatePost.vue')
 const routes: Array<RouteRecordRaw> = [
   {
-    path:'/',
+    path:'',
+    redirect:'/home',
     name:'home',
     component:Home,
     children:[]
   },
-  // {
-  //   path:'/home',
-  //   name:'home',
-  //   component:Home,
-  // },
+  {
+    path:'/home',
+    name:'home',
+    component:Home,
+  },
   {
     path:'/login',
     name:'login',
@@ -23,6 +25,10 @@ const routes: Array<RouteRecordRaw> = [
     path:'/column/:id',
     name:'column',
     component:ColumnDetail
+  },{
+    path:'/create',
+    name:'create',
+    component:CreatePost
   }
 ]
 

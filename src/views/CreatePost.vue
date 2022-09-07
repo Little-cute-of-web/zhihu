@@ -1,0 +1,81 @@
+<template>
+  <div class="create-post-page">
+    <h4>新建文章</h4>
+    <validate-form @form-submit="onFormSubmit"> 
+      <div class="mb-3">
+        <label class="form-label">文章标题</label>
+        <validate-input
+          :rules="titleRules"
+          v-model="titleVal"
+          placeholder="请输入文章标题"
+          type="text"
+          ref="inputRef"
+        ></validate-input>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">文章内容</label>
+        <validate-input
+          :rules="contentRules"
+          v-model="contentVal"
+          placeholder="请输入文章内容"
+          type="password"
+          ref="inputRef"
+        ></validate-input>
+      </div>
+      <template #submit>
+        <button class="btn btn-primary btn-large">创建</button>
+      </template>
+    </validate-form>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+import {  useRouter} from "vue-router";
+import { useStore } from "vuex";
+//导入组件
+import ValidateForm from "../components/ValidateForm.vue";
+import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
+export default defineComponent({
+  name: "CreatePost",
+  components: {
+    ValidateForm,
+    ValidateInput,
+  },
+  setup() {
+    const router = useRouter()
+    const store  = useStore() 
+    //设置文章标题初始值
+    const titleVal = ref("");
+    //设置标题验证规则
+    const titleRules: RulesProps = [
+      {
+        type: "required",
+        message: "输入的标题不能为空",
+      },
+    ];
+    const contentVal = ref("");
+    const contentRules: RulesProps = [
+      {
+        type: "required",
+        message: "输入的内容不能为空",
+      },
+    ];
+   const  onFormSubmit = (res:boolean) => {
+    if(res){
+      router.push('/home')
+      store.commit('LOGIN')
+    }
+   };
+    return {
+      titleVal,
+      titleRules,
+      contentVal,
+      contentRules,
+      onFormSubmit
+    };
+  },
+});
+</script>
+
+<style scoped></style>

@@ -40,9 +40,9 @@ import { GlobalDataProps } from "../store";
 //导入组件
 // import GlobalHeader ,{ UserProps } from "../components/GlobalHeader.vue";
 import ValidateForm from '../components/ValidateForm.vue';
-import ValidateInput from "../components/ValidateInput.vue";
+import ValidateInput ,{ RulesProps } from "../components/ValidateInput.vue";
 //导入RulesProps
-import { RulesProps } from '../components/ValidateInput.vue';
+// import { RulesProps } from '../components/ValidateInput.vue';
 
 export default defineComponent({
   setup () {
@@ -81,7 +81,7 @@ export default defineComponent({
       },
       {
         type: "password",
-        message: "至少8位",
+        message: "包含大小写字母和数字，至少4位~",
       },
     ];
 

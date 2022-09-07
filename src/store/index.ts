@@ -17,7 +17,8 @@ export default createStore<GlobalDataProps>({
   state: {
     columns: testData,
     posts: testPosts,
-    user: { isLogin: false }
+    // user:{isLogin:false},
+    user: { isLogin: true,name:'one' }
   },
   getters: {
     bigColumnsLen(state) {
