@@ -23,6 +23,7 @@ const routes: Array<RouteRecordRaw> = [
     path:'/login',
     name:'login',
     component:Login,
+    meta:{redirectAlreadyLogin:true}
   },{
     path:'/column/:id',
     name:'column',
@@ -30,7 +31,10 @@ const routes: Array<RouteRecordRaw> = [
   },{
     path:'/create',
     name:'create',
-    component:CreatePost
+    component:CreatePost,
+    meta:{
+      requiredLogin:true
+    }
   }
 ]
 const router = createRouter({
@@ -38,8 +42,10 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to,from,next)=>{
-  if(to.name!=='login'&&!store.state.user.isLogin){
+  if(to.meta.requiredLogin&&!store.state.user.isLogin){
     next({name:'login'})
+  }else if(to.meta.redirectAlreadyLogin&&store.state.user.isLogin){
+    next('/home')
   }else{
      next()
   }
