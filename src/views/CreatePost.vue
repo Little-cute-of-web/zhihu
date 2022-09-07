@@ -1,7 +1,7 @@
 <template>
   <div class="create-post-page">
     <h4>新建文章</h4>
-    <validate-form @form-submit="onFormSubmit"> 
+    <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">文章标题</label>
         <validate-input
@@ -15,10 +15,12 @@
       <div class="mb-3">
         <label class="form-label">文章内容</label>
         <validate-input
+          tag="textarea"
+          rows="10"
           :rules="contentRules"
           v-model="contentVal"
           placeholder="请输入文章内容"
-          type="password"
+          type="text"
           ref="inputRef"
         ></validate-input>
       </div>
@@ -31,8 +33,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import {  useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+//导入store
+import { GlobalDataProps } from "../store";
+import { PostProps } from "../json/testData";
 //导入组件
 import ValidateForm from "../components/ValidateForm.vue";
 import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
@@ -43,8 +48,8 @@ export default defineComponent({
     ValidateInput,
   },
   setup() {
-    const router = useRouter()
-    const store  = useStore() 
+    const router = useRouter();
+    const store = useStore<GlobalDataProps>();
     //设置文章标题初始值
     const titleVal = ref("");
     //设置标题验证规则
@@ -61,18 +66,29 @@ export default defineComponent({
         message: "输入的内容不能为空",
       },
     ];
-   const  onFormSubmit = (res:boolean) => {
-    if(res){
-      router.push('/home')
-      store.commit('LOGIN')
-    }
-   };
+    const onFormSubmit = (res: boolean) => {
+      if (res) {
+        //取出columnId
+        const { columnId } = store.state.user;
+        if (columnId) {
+          const newPost: PostProps = {
+            id: new Date().getTime(),
+            title: titleVal.value,
+            content: contentVal.value,
+            columnId,
+            createdAt: new Date().toLocaleString(),
+          };
+          store.commit("CREATEPOST", newPost);
+          router.push({ name: "column", params: { id: columnId } });
+        }
+      }
+    };
     return {
       titleVal,
       titleRules,
       contentVal,
       contentRules,
-      onFormSubmit
+      onFormSubmit,
     };
   },
 });

@@ -1,12 +1,23 @@
 <template>
   <div class="validate-input-container pb-3">
-    <input class="form-control"
+    <input 
+    v-if="tag!=='textarea'"
+    class="form-control"
     :class="{'is-invalid':inputRef.error}"
     :value="inputRef.val"
     @blur="validateInput"
     @input="updateValue"
     v-bind="$attrs"
     >
+    <textarea 
+    v-else
+    class="form-control"
+    :class="{'is-valid':inputRef.error}"
+    :value="inputRef.val"
+    @blur="validateInput"
+    @input="updateValue"
+    v-bind="$attrs"
+    ></textarea>
     <span v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</span>
   </div>
 </template>
@@ -22,12 +33,18 @@ interface RuleProp {
   message:string;
 }
 export type RulesProps = RuleProp[];
+//输入框类型 input textarea
+export type TagType = 'input' | 'textarea'
 //密码
 const passwordReg =  /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
 export default defineComponent({
   props:{
     rules: Array as PropType<RulesProps>,
-    modelValue:String
+    modelValue:String,
+    tag:{
+      type: String as PropType<TagType>,
+        default:'input'
+    }
   },
   //禁止继承attrs
   inheritAttrs:false,

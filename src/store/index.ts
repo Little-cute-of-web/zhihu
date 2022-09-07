@@ -6,7 +6,8 @@ import { testData, testPosts, ColumnProps, PostProps } from "../json/testData";
 interface UserProps {
   isLogin: boolean,
   name?: string,
-  id?: number
+  id?: number,
+  columnId?:number
 }
 export interface GlobalDataProps {
   columns: ColumnProps[],
@@ -17,8 +18,8 @@ export default createStore<GlobalDataProps>({
   state: {
     columns: testData,
     posts: testPosts,
-    // user:{isLogin:false},
-    user: { isLogin: true,name:'one' }
+    user:{isLogin:false},
+    // user: { isLogin: true,name:'one',columnId:1 }
   },
   getters: {
     bigColumnsLen(state) {
@@ -43,6 +44,9 @@ export default createStore<GlobalDataProps>({
   mutations: {
     LOGIN(state) {
       state.user = { ...state.user, isLogin: true, name: 'one' }
+    },
+    CREATEPOST(state,newPost){
+      state.posts.push(newPost)
     }
   },
   actions: {
