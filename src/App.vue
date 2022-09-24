@@ -2,7 +2,7 @@
   <div class="container">
     <global-header :user="user"></global-header>
     <!-- <home></home> -->
-    <router-link to="/home"></router-link>
+    <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
@@ -43,7 +43,7 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
-    
+
     return {
       user,
     };
