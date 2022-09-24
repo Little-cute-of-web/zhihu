@@ -1,4 +1,5 @@
 
+import axios from 'axios';
 import { createStore } from 'vuex'
 
 //导入数据
@@ -47,9 +48,17 @@ export default createStore<GlobalDataProps>({
     },
     CREATEPOST(state,newPost){
       state.posts.push(newPost)
+    },
+    fetchColumns(state,rawData){
+      state.columns = rawData.data.list
     }
   },
   actions: {
+    fetchColumns(context){
+      axios.get('/columns').then(res=>{
+        context.commit('fetchColumns',res.data)
+      })
+    }
   },
   modules: {
   }
