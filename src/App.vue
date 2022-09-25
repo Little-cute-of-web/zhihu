@@ -2,7 +2,9 @@
   <div class="container">
     <global-header :user="user"></global-header>
     <!-- <home></home> -->
-    <h1 v-if = "isLoading">正在加载</h1>
+    <!-- 换成loading组件 -->
+    <!-- <h1 v-if = "isLoading">正在加载</h1> -->
+    <loader v-if="isLoading" text="正在加载" background="rgba(0,0,0,.8)"></loader>
     <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
     <router-view></router-view>
@@ -29,6 +31,8 @@ import { GlobalDataProps } from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 //导入header组件
 import GlobalHeader from "./components/GlobalHeader.vue";
+//导入loading组件
+import Loader from "./components/Loader.vue";
 //导入home组件
 // import Home from "./views/Home.vue";
 //输入测试用户
@@ -53,6 +57,7 @@ export default defineComponent({
   components: {
     GlobalHeader,
     // Home
+    Loader
   },
 });
 </script>
