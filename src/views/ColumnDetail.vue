@@ -2,7 +2,7 @@
 <div class="column-detail-page w-75 mx-auto">
   <div class="column-info row mb-4 border-bottom pb-4 align-items-center">
     <div class="col-3 text-center">
-      <img :src="column?.avatar" :alt="column?.title" class="rounded-circle">
+      <img :src="column?.avatar.url" :alt="column?.title" class="rounded-circle w-100">
     </div>
     <div class="col-9">
       <h4>{{column?.title}}</h4>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,computed } from 'vue'
+import { defineComponent,computed,onMounted} from 'vue'
 import { useRoute } from "vue-router";
 //导入store
 import { useStore } from "vuex";
@@ -37,11 +37,14 @@ export default defineComponent({
     // const posts = computed(()=>{
     //   return store.state.posts
     // })
-    const currentId = +route.params.id
+    const currentId = route.params.id
 
     // const column = columns.value.find(item=>item.id===currentId)
     // const list = posts.value.filter(post=>post.columnId===currentId)
-
+    onMounted(()=>{
+      store.dispatch('fetchColumn',currentId)
+      store.dispatch('fetchPosts',currentId)
+    })
     //使用getters
     const column = computed(() => {
       let res =store.getters.getColumnsById(currentId)
