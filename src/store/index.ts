@@ -3,7 +3,7 @@ import axios from 'axios';
 import { createStore } from 'vuex'
 
 //导入数据
-import { testPosts, PostProps } from "../json/testData";
+// import { testPosts } from "../json/testData";
 interface UserProps {
   isLogin: boolean,
   name?: string,
@@ -17,12 +17,22 @@ interface ImageProps {
   createdAt?:string;
 }
 export interface ColumnProps {
-  _id:number;
+  _id:string;
   title:string;
   avatar?:ImageProps;
   description: string;
 }
 
+export interface PostProps {
+  _id:string;
+  title:string;
+  excerpt?:string;
+  content?:string;
+  image?:ImageProps;
+  createdAt:string;
+  column:string;
+
+}
 export interface GlobalDataProps {
   columns: ColumnProps[],
   posts: PostProps[],
@@ -31,15 +41,16 @@ export interface GlobalDataProps {
 export default createStore<GlobalDataProps>({
   state:{
     columns:[],
-    posts: testPosts,
+    posts: [],
     // user:{isLogin:false},
     user: { isLogin: true,name:'one',columnId:1 }
   },
   getters: {
-    bigColumnsLen(state) {
-      return state.columns.filter(c => c._id > 2).length
-    },
-    getColumnsById: (state) => (id: number) => {
+    //用于测试
+    // bigColumnsLen(state) {
+    //   return state.columns.filter(c => c._id > 2).length
+    // },
+    getColumnsById: (state) => (id: string) => {
       const res = state.columns.find(item => {
         return item._id === id
       })
@@ -47,9 +58,9 @@ export default createStore<GlobalDataProps>({
 
     },
     getPostsByCid: (state) => 
-      (cid: number) => {
+      (cid: string) => {
         const res = state.posts.filter(post => {
-          return post.columnId === cid
+          return post.column === cid
         })
         return res;
       }
@@ -64,12 +75,28 @@ export default createStore<GlobalDataProps>({
     },
     fetchColumns(state,rawData){
       state.columns = rawData.data.list
+    },
+    fetchColumn(state,rawData){
+      state.columns = [rawData.data]
+    },
+    fetchPosts(state,rawData){
+      state.posts= rawData.data.list
     }
   },
   actions: {
     fetchColumns(context){
       axios.get('/columns').then(res=>{
         context.commit('fetchColumns',res.data)
+      })
+    },
+    fetchColumn({commit},cid){
+      axios.get(`/columns/${cid}`).then(res=>{
+        commit('fetchColumn',res.data)
+      })
+    },
+    fetchPosts({commit},cid){
+      axios.get(`/columns/${cid}/posts`).then(res=>{
+        commit('fetchPosts',res.data)
       })
     }
   },

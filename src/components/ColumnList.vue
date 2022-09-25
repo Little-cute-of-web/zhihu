@@ -3,7 +3,7 @@
     <div v-for="item in columnList" :key="item._id" class="col-4 mb-4">
       <div class="card h-100 shadow-sm" style="width: 18rem"> 
         <div class="card-body text-center">
-          <img :src="item.avatar&&item.avatar.url" alt="item.title" class="round-circle border border-light w-25 my-3" />
+          <img :src="item.avatar&&item.avatar.url" alt="item.title" class="round-circle border border-light my-3" />
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text text-left">{{ item.description }}</p>
           <!-- <router-link :to="{name:'column',params:{id:item.id}}" class="btn btn-outline-primary">进入专栏</router-link> -->
@@ -40,6 +40,8 @@ export default defineComponent({
           item.avatar ={
             url:require('@/assets/column.jpg')
           }
+        }else{
+          item.avatar.url = item.avatar.url+'?x-oss-process=image/resize,m_fixed,h_100,w_100'
         }
         return item;
       })
@@ -51,4 +53,8 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
+  .card-body img {
+    width: 50px;
+    height: 50px;
+  }
 </style>
