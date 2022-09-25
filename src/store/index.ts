@@ -40,12 +40,12 @@ export interface GlobalDataProps {
   isLoading:boolean
 }
 const getAndCommit = async (url:string,mutationName:string,commit:Commit )=>{
-  //请求结束前为加载
-  commit('setLoading',true)
+  //请求结束前为加载   后更为interceptors
+  // commit('setLoading',true)
   const {data} = await axios.get(url);
   commit(mutationName,data)
   //请求结束false
-  commit('setLoading',false)
+  // commit('setLoading',false)
 }
 export default createStore<GlobalDataProps>({
   state:{
