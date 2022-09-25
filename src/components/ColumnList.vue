@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div v-for="item in columnList" :key="item.id" class="col-4 mb-4">
+    <div v-for="item in columnList" :key="item._id" class="col-4 mb-4">
       <div class="card h-100 shadow-sm" style="width: 18rem"> 
         <div class="card-body text-center">
-          <img :src="item.avatar" alt="item.title" class="round-circle border border-light w-25 my-3" />
+          <img :src="item.avatar&&item.avatar.url" alt="item.title" class="round-circle border border-light w-25 my-3" />
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text text-left">{{ item.description }}</p>
           <!-- <router-link :to="{name:'column',params:{id:item.id}}" class="btn btn-outline-primary">进入专栏</router-link> -->
-          <router-link :to="`/column/${item.id}`" class="btn btn-outline-primary">进入专栏</router-link>
+          <router-link :to="`/column/${item._id}`" class="btn btn-outline-primary">进入专栏</router-link>
         </div>
       </div>
     </div>
@@ -17,12 +17,13 @@
 <script lang="ts">
 import { computed } from "@vue/reactivity";
 import { defineComponent, PropType } from "vue";
-export interface ColumnProps {
-  id: number;
-  title: string;
-  avatar?: string;
-  description: string;
-}
+import { ColumnProps } from "../store/index";
+// export interface ColumnProps {
+//   id: number;
+//   title: string;
+//   avatar?: string;
+//   description: string;
+// }
 export default defineComponent({
   name: "ColumnList",
   props: {
@@ -35,7 +36,10 @@ export default defineComponent({
     const columnList = computed(()=>{
       return props.list.map(item=>{
         if(!item.avatar){
-          item.avatar = require('@/assets/column.jpg')
+          // item.avatar = require('@/assets/column.jpg')
+          item.avatar ={
+            url:require('@/assets/column.jpg')
+          }
         }
         return item;
       })

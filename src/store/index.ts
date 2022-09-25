@@ -3,32 +3,45 @@ import axios from 'axios';
 import { createStore } from 'vuex'
 
 //导入数据
-import { testData, testPosts, ColumnProps, PostProps } from "../json/testData";
+import { testPosts, PostProps } from "../json/testData";
 interface UserProps {
   isLogin: boolean,
   name?: string,
   id?: number,
   columnId?:number
 }
+
+interface ImageProps {
+  _id?:string;
+  url?:string;
+  createdAt?:string;
+}
+export interface ColumnProps {
+  _id:number;
+  title:string;
+  avatar?:ImageProps;
+  description: string;
+}
+
 export interface GlobalDataProps {
   columns: ColumnProps[],
   posts: PostProps[],
   user: UserProps
 }
 export default createStore<GlobalDataProps>({
-  state: {
-    columns: testData,
+  state:{
+    columns:[],
     posts: testPosts,
     // user:{isLogin:false},
     user: { isLogin: true,name:'one',columnId:1 }
   },
   getters: {
     bigColumnsLen(state) {
-      return state.columns.filter(c => c.id > 2).length
+      return state.columns.filter(c => c._id > 2).length
     },
     getColumnsById: (state) => (id: number) => {
       const res = state.columns.find(item => {
-        return item.id === id
+        return item._id === id
       })
       return res;
 
