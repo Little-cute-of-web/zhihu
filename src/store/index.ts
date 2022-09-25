@@ -36,18 +36,24 @@ export interface PostProps {
 export interface GlobalDataProps {
   columns: ColumnProps[],
   posts: PostProps[],
-  user: UserProps
+  user: UserProps,
+  isLoading:boolean
 }
 const getAndCommit = async (url:string,mutationName:string,commit:Commit )=>{
+  //请求结束前为加载
+  commit('setLoading',true)
   const {data} = await axios.get(url);
   commit(mutationName,data)
+  //请求结束false
+  commit('setLoading',false)
 }
 export default createStore<GlobalDataProps>({
   state:{
     columns:[],
     posts: [],
     // user:{isLogin:false},
-    user: { isLogin: true,name:'one',columnId:1 }
+    user: { isLogin: true,name:'one',columnId:1 },
+    isLoading:false
   },
   getters: {
     //用于测试
@@ -85,6 +91,10 @@ export default createStore<GlobalDataProps>({
     },
     fetchPosts(state,rawData){
       state.posts= rawData.data.list
+    },
+    //修改loading
+    setLoading(state,status){
+      state.isLoading = status
     }
   },
   actions: {

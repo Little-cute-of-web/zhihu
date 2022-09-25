@@ -2,6 +2,7 @@
   <div class="container">
     <global-header :user="user"></global-header>
     <!-- <home></home> -->
+    <h1 v-if = "isLoading">正在加载</h1>
     <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
     <router-view></router-view>
@@ -43,9 +44,10 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
-
+    const isLoading = computed(()=>store.state.isLoading)
     return {
       user,
+      isLoading
     };
   },
   components: {

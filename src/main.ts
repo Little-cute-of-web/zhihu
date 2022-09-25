@@ -8,6 +8,7 @@ import store from './store'
 //请求
 axios.defaults.baseURL = 'http://apis.imooc.com/api';
 axios.interceptors.request.use(config=>{
+  store.commit('setLoading',true)
   config.params = {...config.params,icode:'F6C60CDC43E9FD11'}
   //其他请求添加到body
   //上传文件，添加到FormData
@@ -18,6 +19,9 @@ axios.interceptors.request.use(config=>{
     config.data = {...config.data,icode:'F6C60CDC43E9FD11'}
   }
   return config;
+})
+axios.interceptors.response.use(config=>{
+  store.commit('setLoading',false)
 })
 // axios.get('/columns?',{params:{key:'hello'}}).then(res=>{
 //   console.log(res.data);
