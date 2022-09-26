@@ -22,7 +22,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+  //导入axios
+  import axios from "axios";
+import { defineComponent, computed, onMounted } from "vue";
 //导入store
 import { useStore } from "vuex";
 //导入全局数据泛型
@@ -48,7 +50,17 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
+    const token = computed(()=>store.state.token)
     const isLoading = computed(()=>store.state.isLoading)
+    onMounted(()=>{
+      if(!user.value.isLogin&&token.value){
+        //设置请求头
+        axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
+        //发送fetchCurrentUser请求  
+        store.dispatch('fetchCurrentUser')
+
+      }
+    })
     return {
       user,
       isLoading

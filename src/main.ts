@@ -9,14 +9,14 @@ import store from './store'
 axios.defaults.baseURL = 'http://apis.imooc.com/api';
 axios.interceptors.request.use(config=>{
   store.commit('setLoading',true)
-  config.params = {...config.params,icode:'F6C60CDC43E9FD11'}
+  config.params = {...config.params,icode:'02A7EB03BD05C575'}
   //其他请求添加到body
   //上传文件，添加到FormData
   if(config.data instanceof FormData){
-    config.data.append('icode','F6C60CDC43E9FD11')
+    config.data.append('icode','02A7EB03BD05C575')
   }else{
     //普通的body对象，添加到data
-    config.data = {...config.data,icode:'F6C60CDC43E9FD11'}
+    config.data = {...config.data,icode:'02A7EB03BD05C575'}
   }
   return config;
 })

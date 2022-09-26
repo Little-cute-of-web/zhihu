@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import { log } from 'console';
 import { Commit, createStore } from 'vuex'
 
 //导入数据
@@ -56,7 +57,11 @@ const getAndCommit = async (url: string, mutationName: string, commit: Commit) =
 }
 const postAndCommit = async (url: string, mutationName: string, commit: Commit, payload: any) => {
   const { data } = await axios.post(url, payload);
+  console.log(data);
+  
   commit(mutationName, data)
+  console.log(data);
+  
   return data;
 }
 export default createStore<GlobalDataProps>({
@@ -162,6 +167,8 @@ export default createStore<GlobalDataProps>({
     },
     //用户登录
     LOGIN({ commit }, payload) {
+      // console.log(payload);
+      
       return postAndCommit(`/user/login`, 'LOGIN', commit, payload)
     },
     //获取当前用户登录的信息
