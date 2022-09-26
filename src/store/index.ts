@@ -26,13 +26,13 @@ export interface ColumnProps {
 }
 
 export interface PostProps {
-  _id: string;
+  id: number;
   title: string;
   excerpt?: string;
   content?: string;
   image?: ImageProps;
   createdAt: string;
-  column: string;
+  column?: string;
 
 }
 export interface GlobalDataProps {

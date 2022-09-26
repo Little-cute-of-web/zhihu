@@ -37,7 +37,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 //导入store
 import { GlobalDataProps } from "../store";
-import { PostProps } from "../json/testData";
+import { PostProps } from "../store/index";
 //导入组件
 import ValidateForm from "../components/ValidateForm.vue";
 import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
@@ -69,17 +69,17 @@ export default defineComponent({
     const onFormSubmit = (res: boolean) => {
       if (res) {
         //取出columnId
-        const { columnId } = store.state.user;
-        if (columnId) {
+        const { column } = store.state.user;
+        if (column) {
           const newPost: PostProps = {
             id: new Date().getTime(),
             title: titleVal.value,
             content: contentVal.value,
-            columnId,
+            // column,
             createdAt: new Date().toLocaleString(),
           };
           store.commit("CREATEPOST", newPost);
-          router.push({ name: "column", params: { id: columnId } });
+          router.push({ name: "column", params: { _id: column } });
         }
       }
     };
