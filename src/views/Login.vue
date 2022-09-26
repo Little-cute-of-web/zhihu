@@ -41,6 +41,7 @@ import { GlobalDataProps } from "../store";
 // import GlobalHeader ,{ UserProps } from "../components/GlobalHeader.vue";
 import ValidateForm from '../components/ValidateForm.vue';
 import ValidateInput ,{ RulesProps } from "../components/ValidateInput.vue";
+import { log } from 'console';
 //导入RulesProps
 // import { RulesProps } from '../components/ValidateInput.vue';
 
@@ -63,8 +64,12 @@ export default defineComponent({
         password:passwordVal.value
       }
      
-      store.dispatch('LOGIN',payload).then(res=>{
-        console.log(res);
+      // store.dispatch('LOGIN',payload).then(res=>{
+      //   console.log(res);
+      //   router.push('/')
+      // })
+      store.dispatch('loginAndFetch',payload).then(data=>{
+        console.log(data);    
         router.push('/')
       })
      }

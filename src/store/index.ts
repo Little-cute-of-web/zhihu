@@ -4,12 +4,13 @@ import { Commit, createStore } from 'vuex'
 
 //导入数据
 // import { testPosts } from "../json/testData";
-interface UserProps {
-
+export interface UserProps {
   isLogin: boolean,
-  name?: string,
-  id?: number,
-  columnId?: number
+  avatar?:ImageProps,
+  column?: string,
+  email?:string,
+  nickName?: string,
+  _id?: string  
 }
 
 interface ImageProps {
@@ -45,9 +46,13 @@ const getAndCommit = async (url: string, mutationName: string, commit: Commit) =
   //请求结束前为加载   后更为interceptors
   // commit('setLoading',true)
   const { data } = await axios.get(url);
+  console.log(data);
+  
   commit(mutationName, data)
   //请求结束false
   // commit('setLoading',false)
+  return data;
+
 }
 const postAndCommit = async (url: string, mutationName: string, commit: Commit, payload: any) => {
   const { data } = await axios.post(url, payload);
@@ -63,7 +68,7 @@ export default createStore<GlobalDataProps>({
     // user: { isLogin: true, name: 'one', columnId: 1 },
     user: {
       isLogin: false,
-      name: 'one', columnId: 1 
+      // name: 'one', columnId: 1 
     },
     isLoading: false
   },
@@ -96,7 +101,11 @@ export default createStore<GlobalDataProps>({
     LOGIN(state, rawData) {
       const {token} = rawData.data
       state.token = token
-      axios.defaults.headers.common.Authorization = `Bear ${token}`
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+    },
+    //获取当前用户登录的信息
+    fetchCurrentUser(state,rawData){
+      state.user = {isLogin:true,...rawData.data}
     },
     CREATEPOST(state, newPost) {
       state.posts.push(newPost)
@@ -119,6 +128,7 @@ export default createStore<GlobalDataProps>({
   actions: {
 
     fetchColumns({ commit }) {
+      //获取首页的专栏卡片内容
       // 对以上请求通过getAndCommit修改
       getAndCommit('/columns', 'fetchColumns', commit)
       //第二次
@@ -129,6 +139,7 @@ export default createStore<GlobalDataProps>({
       //   context.commit('fetchColumns',res.data)
       // })
     },
+    //获取首页专栏的详细信息，post列表
     fetchColumn({ commit }, cid) {
       getAndCommit(`/columns/${cid}`, 'fetchColumn', commit)
       // const {data} = await axios.get(`/columns/${cid}`)
@@ -137,6 +148,7 @@ export default createStore<GlobalDataProps>({
       //   commit('fetchColumn',res.data)
       // })
     },
+    //post详细信息
     fetchPosts({ commit }, cid) {
       getAndCommit(`/columns/${cid}/posts`, 'fetchPosts', commit)
       // const {data} = await axios.get(`/columns/${cid}/posts`)
@@ -145,8 +157,19 @@ export default createStore<GlobalDataProps>({
       //   commit('fetchPosts',res.data)
       // })
     },
+    //用户登录
     LOGIN({ commit }, payload) {
       return postAndCommit(`/user/login`, 'LOGIN', commit, payload)
+    },
+    //获取当前用户登录的信息
+    fetchCurrentUser({commit}){
+     return getAndCommit('/user/current','fetchCurrentUser',commit)
+    },
+    //登录和获取用户信息
+    loginAndFetch({dispatch},loginData){
+      return dispatch('LOGIN',loginData).then(()=>{
+        return dispatch('fetchCurrentUser')
+      })
     }
   },
   modules: {
