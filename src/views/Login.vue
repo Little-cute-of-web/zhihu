@@ -58,8 +58,15 @@ export default defineComponent({
       // console.log(res);
       //验证通过跳转到首页
      if(res){
-      router.push('/')
-      store.commit('LOGIN')
+      const payload = {
+        email:emailVal.value,
+        password:passwordVal.value
+      }
+     
+      store.dispatch('LOGIN',payload).then(res=>{
+        console.log(res);
+        router.push('/')
+      })
      }
     };
     //邮箱验证规则

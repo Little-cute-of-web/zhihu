@@ -36,7 +36,7 @@ export type RulesProps = RuleProp[];
 //输入框类型 input textarea
 export type TagType = 'input' | 'textarea'
 //密码
-const passwordReg =  /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
+const passwordReg =  /^[a-zA-Z0-9_]{4,15}$/;
 export default defineComponent({
   props:{
     rules: Array as PropType<RulesProps>,
