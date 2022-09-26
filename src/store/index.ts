@@ -61,7 +61,8 @@ const postAndCommit = async (url: string, mutationName: string, commit: Commit, 
 }
 export default createStore<GlobalDataProps>({
   state: {
-    token: '',
+    //从localStorage中token
+    token:localStorage.getItem('token') || '',
     columns: [],
     posts: [],
     // user:{isLogin:false},
@@ -101,6 +102,8 @@ export default createStore<GlobalDataProps>({
     LOGIN(state, rawData) {
       const {token} = rawData.data
       state.token = token
+      //存到localStorage
+      localStorage.setItem('token',token)
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
     },
     //获取当前用户登录的信息
