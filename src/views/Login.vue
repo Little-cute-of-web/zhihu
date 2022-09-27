@@ -1,7 +1,7 @@
 <template>
-   <div class="container">
+  <div class="container">
     <!-- <global-header :user="user"></global-header> -->
- <validate-form action="" @form-submit="formSubmit">
+    <validate-form action="" @form-submit="formSubmit">
       <div class="mb-3">
         <label class="form-label">Email address</label>
         <validate-input
@@ -27,11 +27,11 @@
         <span class="btn btn-danger">提交</span>
       </template>
     </validate-form>
-   </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent ,ref} from 'vue'
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 //导入store
 import { useStore } from "vuex";
@@ -39,15 +39,15 @@ import { useStore } from "vuex";
 import { GlobalDataProps } from "../store";
 //导入组件
 // import GlobalHeader ,{ UserProps } from "../components/GlobalHeader.vue";
-import ValidateForm from '../components/ValidateForm.vue';
-import ValidateInput ,{ RulesProps } from "../components/ValidateInput.vue";
+import ValidateForm from "../components/ValidateForm.vue";
+import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
 //导入RulesProps
 // import { RulesProps } from '../components/ValidateInput.vue';
 
 export default defineComponent({
-  setup () {
+  setup() {
     //初始化store
-    const store = useStore<GlobalDataProps>()
+    const store = useStore<GlobalDataProps>();
 
     //初始化router
     const router = useRouter();
@@ -57,21 +57,25 @@ export default defineComponent({
     const formSubmit = (res: boolean) => {
       // console.log(res);
       //验证通过跳转到首页
-     if(res){
-      const payload = {
-        email:emailVal.value,
-        password:passwordVal.value
+      if (res) {
+        const payload = {
+          email: emailVal.value,
+          password: passwordVal.value,
+        };
+
+        // store.dispatch('LOGIN',payload).then(res=>{
+        //   console.log(res);
+        //   router.push('/')
+        // })
+        store
+          .dispatch("loginAndFetch", payload)
+          .then(() => {
+            router.push("/");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
-     
-      // store.dispatch('LOGIN',payload).then(res=>{
-      //   console.log(res);
-      //   router.push('/')
-      // })
-      store.dispatch('loginAndFetch',payload).then(data=>{
-        console.log(data);    
-        router.push('/')
-      })
-     }
     };
     //邮箱验证规则
     const emailRules: RulesProps = [
@@ -101,16 +105,14 @@ export default defineComponent({
       emailRules,
       passwordRules,
       emailVal,
-      passwordVal
-    }
+      passwordVal,
+    };
   },
-  components:{
+  components: {
     ValidateForm,
-    ValidateInput
-  }
-})
+    ValidateInput,
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,17 +1,16 @@
 
 import axios from 'axios';
-import { log } from 'console';
 import { Commit, createStore } from 'vuex'
 
 //导入数据
 // import { testPosts } from "../json/testData";
 export interface UserProps {
   isLogin: boolean,
-  avatar?:ImageProps,
+  avatar?: ImageProps,
   column?: string,
-  email?:string,
+  email?: string,
   nickName?: string,
-  _id?: string  
+  _id?: string
 }
 
 interface ImageProps {
@@ -36,7 +35,13 @@ export interface PostProps {
   column?: string;
 
 }
+
+export interface GlobalErrorProps {
+  status: boolean;
+  message?: string;
+}
 export interface GlobalDataProps {
+  error: GlobalErrorProps;
   token: string,
   columns: ColumnProps[],
   posts: PostProps[],
@@ -47,8 +52,6 @@ const getAndCommit = async (url: string, mutationName: string, commit: Commit) =
   //请求结束前为加载   后更为interceptors
   // commit('setLoading',true)
   const { data } = await axios.get(url);
-  console.log(data);
-  
   commit(mutationName, data)
   //请求结束false
   // commit('setLoading',false)
@@ -57,17 +60,14 @@ const getAndCommit = async (url: string, mutationName: string, commit: Commit) =
 }
 const postAndCommit = async (url: string, mutationName: string, commit: Commit, payload: any) => {
   const { data } = await axios.post(url, payload);
-  console.log(data);
-  
   commit(mutationName, data)
-  console.log(data);
-  
   return data;
 }
 export default createStore<GlobalDataProps>({
   state: {
+    error: { status: false },
     //从localStorage中token
-    token:localStorage.getItem('token') || '',
+    token: localStorage.getItem('token') || '',
     columns: [],
     posts: [],
     // user:{isLogin:false},
@@ -105,15 +105,15 @@ export default createStore<GlobalDataProps>({
     // },
     //登录
     LOGIN(state, rawData) {
-      const {token} = rawData.data
+      const { token } = rawData.data
       state.token = token
       //存到localStorage
-      localStorage.setItem('token',token)
+      localStorage.setItem('token', token)
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
     },
     //获取当前用户登录的信息
-    fetchCurrentUser(state,rawData){
-      state.user = {isLogin:true,...rawData.data}
+    fetchCurrentUser(state, rawData) {
+      state.user = { isLogin: true, ...rawData.data }
     },
     CREATEPOST(state, newPost) {
       state.posts.push(newPost)
@@ -131,7 +131,10 @@ export default createStore<GlobalDataProps>({
     setLoading(state, status) {
       state.isLoading = status
     },
-
+    //设置错误状态
+    setError(state, e: GlobalErrorProps) {
+      state.error = e
+    }
   },
   actions: {
 
@@ -168,16 +171,16 @@ export default createStore<GlobalDataProps>({
     //用户登录
     LOGIN({ commit }, payload) {
       // console.log(payload);
-      
+
       return postAndCommit(`/user/login`, 'LOGIN', commit, payload)
     },
     //获取当前用户登录的信息
-    fetchCurrentUser({commit}){
-     return getAndCommit('/user/current','fetchCurrentUser',commit)
+    fetchCurrentUser({ commit }) {
+      return getAndCommit('/user/current', 'fetchCurrentUser', commit)
     },
     //登录和获取用户信息
-    loginAndFetch({dispatch},loginData){
-      return dispatch('LOGIN',loginData).then(()=>{
+    loginAndFetch({ dispatch }, loginData) {
+      return dispatch('LOGIN', loginData).then(() => {
         return dispatch('fetchCurrentUser')
       })
     }

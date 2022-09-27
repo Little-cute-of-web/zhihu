@@ -35,6 +35,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import GlobalHeader from "./components/GlobalHeader.vue";
 //导入loading组件
 import Loader from "./components/Loader.vue";
+import { log } from "console";
 //导入home组件
 // import Home from "./views/Home.vue";
 //输入测试用户
@@ -53,6 +54,8 @@ export default defineComponent({
     const token = computed(()=>store.state.token)
     const isLoading = computed(()=>store.state.isLoading)
     onMounted(()=>{
+      console.log(user.value.isLogin);
+      
       if(!user.value.isLogin&&token.value){
         //设置请求头
         axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
