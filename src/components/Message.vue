@@ -16,6 +16,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
+// 导入 useDOMCreate
+import useDOMCreate from '../hooks/useDOMCreate';
 export type MessageType = 'success' | 'error' | 'default'
 export default defineComponent({
   props:{
@@ -27,9 +29,10 @@ export default defineComponent({
     },
   emits:['close-message'],
   setup(props, context) {
-    const node  = document.createElement('div');
-    node.id = 'message';
-    document.body.appendChild(node);
+    // const node  = document.createElement('div');
+    // node.id = 'message';
+    // document.body.appendChild(node);
+    useDOMCreate('message')
     const isVisible  = ref(true);
     const classObject = {
       'alert-success' :props.type === 'success',
