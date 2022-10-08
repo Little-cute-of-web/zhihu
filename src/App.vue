@@ -4,6 +4,8 @@
     <!-- <home></home> -->
     <!-- 换成loading组件 -->
     <!-- <h1 v-if = "isLoading">正在加载</h1> -->
+    <!-- 测试Message组件 -->
+    <message type="error" :message="error.message"></message>
     <loader v-if="isLoading" text="正在加载" background="rgba(0,0,0,.8)"></loader>
     <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
@@ -35,7 +37,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import GlobalHeader from "./components/GlobalHeader.vue";
 //导入loading组件
 import Loader from "./components/Loader.vue";
-import { log } from "console";
 //导入home组件
 // import Home from "./views/Home.vue";
 //输入测试用户
@@ -43,19 +44,23 @@ import { log } from "console";
 //   isLogin: false,
 //   name: "one",
 // };
-
+//导入Message组件
+import Message from './components/Message.vue'
 export default defineComponent({
   name: "App",
   setup() {
     const store = useStore<GlobalDataProps>();
+    console.log(store);   
     const user = computed(() => {
       return store.state.user;
     });
     const token = computed(()=>store.state.token)
+    const error = computed(()=>store.state.error)
     const isLoading = computed(()=>store.state.isLoading)
+    //错误信息提示
+    // watch(()=>error.value.status,())
     onMounted(()=>{
       console.log(user.value.isLogin);
-      
       if(!user.value.isLogin&&token.value){
         //设置请求头
         axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
@@ -66,13 +71,14 @@ export default defineComponent({
     })
     return {
       user,
-      isLoading
+      isLoading,error
     };
   },
   components: {
     GlobalHeader,
     // Home
-    Loader
+    Loader,
+    Message
   },
 });
 </script>

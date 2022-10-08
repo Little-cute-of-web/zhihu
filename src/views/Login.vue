@@ -73,7 +73,7 @@ export default defineComponent({
             router.push("/");
           })
           .catch((e) => {
-            console.log(e);
+            console.log('错误提示',e);
           });
       }
     };
