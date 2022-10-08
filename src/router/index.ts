@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-const Home = () => import('../views/Home.vue');
+const Home = () => import('../views/Home.vue')
 const Login = () => import('../views/Login.vue')
+const Sign = ()=>import('../views/SignUp.vue')
 const ColumnDetail = () => import('../views/ColumnDetail.vue')
 const CreatePost = () => import('../views/CreatePost.vue')
 //导入store
@@ -25,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Login,
     meta: { redirectAlreadyLogin: true }
   }, {
+    path: '/sign',
+    name: 'sign',
+    component: Sign,
+    // meta: { redirectAlreadyLogin: true }
+  },{
     path: '/column/:id',
     name: 'column',
     component: ColumnDetail

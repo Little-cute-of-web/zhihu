@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- <global-header :user="user"></global-header> -->
-    <validate-form action="" @form-submit="formSubmit">
+    <validate-form @form-submit="formSubmit">
       <div class="mb-3">
         <label class="form-label">Email address</label>
         <validate-input
