@@ -1,11 +1,10 @@
-import { COMPLETIONSTATEMENT_TYPES } from '@babel/types'
+
 import axios from 'axios'
 import { createApp } from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-
 //请求
 axios.defaults.baseURL = 'http://apis.imooc.com/api';
 axios.interceptors.request.use(config => {

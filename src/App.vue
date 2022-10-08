@@ -6,6 +6,8 @@
     <!-- <h1 v-if = "isLoading">正在加载</h1> -->
     <!-- 测试Message组件 -->
     <!-- <message type="error" :message="error.message" v-if="error.status"></message> -->
+    <!-- 测试Vnode -->
+    <vnode msg="hello"></vnode>
     <loader v-if="isLoading" text="正在加载" background="rgba(0,0,0,.8)"></loader>
     <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
@@ -48,6 +50,8 @@ import Loader from "./components/Loader.vue";
 // import Message from './components/Message.vue'
 //导入createMessage函数
 import createMessage from "./components/createMessage";
+//导入Vnode测试
+import Vnode from './components/Vnode.vue';
 export default defineComponent({
   name: "App",
   setup() {
@@ -84,7 +88,8 @@ export default defineComponent({
     GlobalHeader,
     // Home
     Loader,
-    // Message
+    // Message，
+    Vnode
   },
 });
 </script>
