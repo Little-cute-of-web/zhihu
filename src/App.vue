@@ -5,7 +5,7 @@
     <!-- 换成loading组件 -->
     <!-- <h1 v-if = "isLoading">正在加载</h1> -->
     <!-- 测试Message组件 -->
-    <message type="error" :message="error.message" v-if="error.status"></message>
+    <!-- <message type="error" :message="error.message" v-if="error.status"></message> -->
     <loader v-if="isLoading" text="正在加载" background="rgba(0,0,0,.8)"></loader>
     <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
@@ -26,7 +26,7 @@
 <script lang="ts">
   //导入axios
   import axios from "axios";
-import { defineComponent, computed, onMounted } from "vue";
+import { defineComponent, computed, onMounted ,watch} from "vue";
 //导入store
 import { useStore } from "vuex";
 //导入全局数据泛型
@@ -45,7 +45,9 @@ import Loader from "./components/Loader.vue";
 //   name: "one",
 // };
 //导入Message组件
-import Message from './components/Message.vue'
+// import Message from './components/Message.vue'
+//导入createMessage函数
+import createMessage from "./components/createMessage";
 export default defineComponent({
   name: "App",
   setup() {
@@ -56,10 +58,13 @@ export default defineComponent({
     const token = computed(()=>store.state.token)
     const error = computed(()=>store.state.error)
     const isLoading = computed(()=>store.state.isLoading)
-    //错误信息提示
-    // console.log('错误信息状态',error);
-    
-    // watch(()=>error.value.status,())
+    //watch error 执行createMessage
+    watch(()=>error.value.status,()=>{
+      const {status,message} = error.value
+      if(status&&message){
+        createMessage(message,'error')
+      }
+    })
     onMounted(()=>{
       console.log(user.value.isLogin);
       if(!user.value.isLogin&&token.value){
@@ -79,7 +84,7 @@ export default defineComponent({
     GlobalHeader,
     // Home
     Loader,
-    Message
+    // Message
   },
 });
 </script>

@@ -1,3 +1,4 @@
+import { COMPLETIONSTATEMENT_TYPES } from '@babel/types'
 import axios from 'axios'
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -9,6 +10,7 @@ import store from './store'
 axios.defaults.baseURL = 'http://apis.imooc.com/api';
 axios.interceptors.request.use(config => {
   store.commit('setLoading', true)
+  store.commit('setError',{status:false,message:''})
   config.params = { ...config.params, icode: '02A7EB03BD05C575' }
   //其他请求添加到body
   //上传文件，添加到FormData
