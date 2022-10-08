@@ -5,7 +5,7 @@
     <!-- 换成loading组件 -->
     <!-- <h1 v-if = "isLoading">正在加载</h1> -->
     <!-- 测试Message组件 -->
-    <message type="error" :message="error.message"></message>
+    <message type="error" :message="error.message" v-if="error.status"></message>
     <loader v-if="isLoading" text="正在加载" background="rgba(0,0,0,.8)"></loader>
     <router-link to="/"></router-link>
     <router-link to="/login"></router-link>
@@ -49,8 +49,7 @@ import Message from './components/Message.vue'
 export default defineComponent({
   name: "App",
   setup() {
-    const store = useStore<GlobalDataProps>();
-    console.log(store);   
+    const store = useStore<GlobalDataProps>();  
     const user = computed(() => {
       return store.state.user;
     });
@@ -58,6 +57,8 @@ export default defineComponent({
     const error = computed(()=>store.state.error)
     const isLoading = computed(()=>store.state.isLoading)
     //错误信息提示
+    // console.log('错误信息状态',error);
+    
     // watch(()=>error.value.status,())
     onMounted(()=>{
       console.log(user.value.isLogin);
