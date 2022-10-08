@@ -43,7 +43,8 @@ import ValidateForm from "../components/ValidateForm.vue";
 import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
 //导入RulesProps
 // import { RulesProps } from '../components/ValidateInput.vue';
-
+//导入createMessage
+import createMessage from "../components/createMessage";
 export default defineComponent({
   setup() {
     //初始化store
@@ -70,7 +71,11 @@ export default defineComponent({
         store
           .dispatch("loginAndFetch", payload)
           .then(() => {
-            router.push("/");
+            // console.log(data);     
+            createMessage('登录成功2秒后跳转首页','success')
+            setTimeout(() => {
+              router.push("/");
+            }, 2000);
           })
           .catch((e) => {
             console.log('错误提示',e);
