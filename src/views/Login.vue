@@ -72,9 +72,10 @@ export default defineComponent({
           .dispatch("loginAndFetch", payload)
           .then(() => {
             // console.log(data);     
-            createMessage('登录成功2秒后跳转首页','success')
+            const messageInstance=  createMessage('登录成功2秒后跳转首页','success')
             setTimeout(() => {
-              router.push("/");
+              router.push("/")
+              messageInstance.destroy()
             }, 2000);
           })
           .catch((e) => {

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <validate-form>
+    <validate-form @form-submit="formSubmit">
       <div class="mb-3">
         <label class="form-label">Email address</label>
         <validate-input
@@ -53,6 +53,9 @@
 import { defineComponent, reactive } from "vue";
 import ValidateForm from "@/components/ValidateForm.vue";
 import ValidateInput, { RulesProps } from "@/components/ValidateInput.vue";
+import axios from "axios";
+import createMessage from "../components/createMessage";
+import router from "@/router";
 export default defineComponent({
   setup() {
     const formData = reactive({
@@ -100,12 +103,34 @@ export default defineComponent({
         message:"两次输入密码不一致~"
       }
     ];
+    //触发表单提交按钮
+    const formSubmit  = async (res:boolean)=>{
+      if(res){
+        const payload = {
+          email:formData.emailVal,
+          nickName:formData.nameVal,
+          password :formData.passwordVal,
+          
+        }
+        axios.post('/users',payload).then(data=>{
+          const messageInstance = createMessage('注册成功，正在跳转登录页面','success')
+          setTimeout(()=>{
+            router.push('/login')
+            messageInstance.destroy()
+          },2000)
+        }).catch(e=>{
+          console.log(e);
+          
+        })
+      }
+    };   
     return {
       formData,
       emailRules,
       nameRules,
       passwordRules,
       repeatPasswordRules,
+      formSubmit
     };
   },
   components: { ValidateForm, ValidateInput },
