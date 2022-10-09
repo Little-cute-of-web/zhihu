@@ -4,6 +4,11 @@ import { Commit, createStore } from 'vuex'
 
 //导入数据
 // import { testPosts } from "../json/testData";
+export interface ResponseType<P = Record<string,unknown>>{
+  code:number;
+  msg:string;
+  data:P
+}
 export interface UserProps {
   isLogin: boolean,
   avatar?: ImageProps,
@@ -13,7 +18,7 @@ export interface UserProps {
   _id?: string
 }
 
-interface ImageProps {
+export interface ImageProps {
   _id?: string;
   url?: string;
   createdAt?: string;

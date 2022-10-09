@@ -11,7 +11,7 @@
         </div>
       </div>
     </section>
-    <uploader actions="/upload" :beforeUpload="beforeUpload"></uploader>
+    <uploader actions="/upload" :beforeUpload="beforeUpload" @file-uploaded = "onFileUploaded"></uploader>
     <h4 class="font-weight-bold text-center">发现精彩</h4>
     <column-list :list="list"></column-list>
   </div>
@@ -22,7 +22,7 @@ import { defineComponent, computed, onMounted } from "vue";
 //导入store
 import { useStore } from "vuex";
 //导入全局数据泛型
-import { GlobalDataProps } from "../store";
+import { GlobalDataProps ,ResponseType ,ImageProps} from "../store";
 //导入组件
 import ColumnList from "../components/ColumnList.vue";
 //导入createMessage
@@ -48,6 +48,9 @@ export default defineComponent({
       }
       return isJPG;
     }
+    const onFileUploaded = (rawData:ResponseType<ImageProps>)=>{
+      createMessage(`上传图片ID ${rawData.data._id}`,'success')
+    }
     //以下为测试
     //id >2 的文章
     const bigColumnsLen = computed(()=>{
@@ -56,7 +59,8 @@ export default defineComponent({
     return {
       list,
       bigColumnsLen,
-      beforeUpload
+      beforeUpload,
+      onFileUploaded
     };
   },
   components: {

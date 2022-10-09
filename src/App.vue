@@ -70,11 +70,11 @@ export default defineComponent({
       }
     })
     onMounted(()=>{
-      const messageInstance = createMessage('click here','default')
-      //2000后销毁
-      setTimeout(()=>{
-        messageInstance.destroy()
-      },2000)
+      // const messageInstance = createMessage('click here','default')
+      // //2000后销毁
+      // setTimeout(()=>{
+      //   messageInstance.destroy()
+      // },2000)
       console.log(user.value.isLogin);
       if(!user.value.isLogin&&token.value){
         //设置请求头

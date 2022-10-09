@@ -28,7 +28,8 @@ export default defineComponent({
       type:Function as PropType<CheckFunction>
     }
   },
-  setup(props) {
+  emits:['file-uploaded','file-uploaded-error'],
+  setup(props,ctx) {
     const fileInput = ref<null | HTMLInputElement>(null);
     const fileStatus = ref<UploadStatus>("ready");
     const triggerUpload = () => {
@@ -56,13 +57,14 @@ export default defineComponent({
           'Content-Type':"multipart/form-data"
         }
        }).then(res=>{
-        console.log(res);
+        // console.log(res);
+        ctx.emit('file-uploaded',res.data)
         fileStatus.value = 'success'
         
-       }).catch(e=>{
-        console.log(e);
+       }).catch(error=>{
+        // console.log(e);
         fileStatus.value = 'error'
-        
+        ctx.emit('file-uploaded-error',{error})
        }).finally(()=>{
         if(fileInput.value){
           fileInput.value.value=''
