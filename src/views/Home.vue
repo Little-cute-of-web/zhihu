@@ -11,6 +11,7 @@
         </div>
       </div>
     </section>
+    <uploader actions="/upload" :beforeUpload="beforeUpload"></uploader>
     <h4 class="font-weight-bold text-center">发现精彩</h4>
     <column-list :list="list"></column-list>
   </div>
@@ -24,6 +25,10 @@ import { useStore } from "vuex";
 import { GlobalDataProps } from "../store";
 //导入组件
 import ColumnList from "../components/ColumnList.vue";
+//导入createMessage
+import createMessage from "../components/createMessage";
+//导入Uploader
+import Uploader from "../components/Uploader.vue";
 //导入模拟数据columnList
 // import {testData} from "../json/testData";
 export default defineComponent({
@@ -36,17 +41,27 @@ export default defineComponent({
     const list = computed(() => {
       return store.state.columns;
     });
+    const beforeUpload = (file:File)=>{
+      const isJPG = file.type==='image/jpeg'
+      if(!isJPG){
+        createMessage('上传图片的格式只能是JPEG格式','error')
+      }
+      return isJPG;
+    }
+    //以下为测试
     //id >2 的文章
     const bigColumnsLen = computed(()=>{
       return store.getters.bigColumnsLen
     })
     return {
       list,
-      bigColumnsLen
+      bigColumnsLen,
+      beforeUpload
     };
   },
   components: {
     ColumnList,
+    Uploader
   },
 });
 </script>

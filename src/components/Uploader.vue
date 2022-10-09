@@ -15,14 +15,18 @@
 
 <script lang="ts">
 import axios from "axios";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref ,PropType} from "vue";
 type UploadStatus = "ready" | "loading" | "success" | "error";
+type CheckFunction = (file:File)=>boolean;
 export default defineComponent({
   props: {
     actions: {
       type: String,
       required: true,
     },
+    beforeUpload:{
+      type:Function as PropType<CheckFunction>
+    }
   },
   setup(props) {
     const fileInput = ref<null | HTMLInputElement>(null);
@@ -37,8 +41,14 @@ export default defineComponent({
       // const files = currentTarget.files
       if(currentTarget.files){
         // console.log(files);
-        fileStatus.value='loading'
-       const files = Array.from(currentTarget.files)
+        const files = Array.from(currentTarget.files)
+        if(props.beforeUpload){
+          const res = props.beforeUpload(files[0])
+          if(!res){
+            return
+          }
+        }
+        fileStatus.value='loading'    
        const formData = new FormData()
        formData.append('files',files[0])
        axios.post(props.actions,formData,{

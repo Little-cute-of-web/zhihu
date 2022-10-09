@@ -4,8 +4,9 @@
     <!-- 上传文件测试 -->
     <!-- <input type="file" name="file" @change.prevent="handleFileChange"> -->
     <!-- Uploader组件 -->
-    <!-- <up-loader></up-loader> -->
-    <validate-form @form-submit="onFormSubmit">
+    <uploader actions="'/post'"></uploader>
+    <validate-form 
+    @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">文章标题</label>
         <validate-input
@@ -46,14 +47,14 @@ import { PostProps } from "../store/index";
 import ValidateForm from "../components/ValidateForm.vue";
 import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
 //导入Uploader组件
-import UpLoader from "../components/Uploader.vue";
+import Uploader from "../components/Uploader.vue";
 import axios from "axios";
 export default defineComponent({
   name: "CreatePost",
   components: {
     ValidateForm,
     ValidateInput,
-    // UpLoader
+    Uploader
   },
   setup() {
     const router = useRouter();
