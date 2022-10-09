@@ -4,7 +4,7 @@
     <!-- 上传文件测试 -->
     <!-- <input type="file" name="file" @change.prevent="handleFileChange"> -->
     <!-- Uploader组件 -->
-    <uploader actions="'/post'"></uploader>
+    <uploader actions="/post"></uploader>
     <validate-form 
     @form-submit="onFormSubmit">
       <div class="mb-3">

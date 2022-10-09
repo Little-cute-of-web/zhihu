@@ -11,7 +11,20 @@
         </div>
       </div>
     </section>
-    <uploader actions="/upload" :beforeUpload="beforeUpload" @file-uploaded = "onFileUploaded"></uploader>
+    <uploader actions="/upload" :beforeUpload="beforeUpload" 
+    @file-uploaded = "onFileUploaded"
+    @file-uploaded-error="onFileUploadedError"
+    >
+    <!-- <h2>点击上传</h2>
+    <template #loading>
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </template> -->
+    <template #uploaded="dataProps">
+      <img :src="dataProps.uploadedData.data?.url" width="500">
+    </template>
+  </uploader>
     <h4 class="font-weight-bold text-center">发现精彩</h4>
     <column-list :list="list"></column-list>
   </div>
@@ -44,12 +57,24 @@ export default defineComponent({
     const beforeUpload = (file:File)=>{
       const isJPG = file.type==='image/jpeg'
       if(!isJPG){
-        createMessage('上传图片的格式只能是JPEG格式','error')
+        const messageJpg = createMessage('上传图片的格式只能是JPEG格式','error')
+       setTimeout(()=>{
+        messageJpg.destroy()
+       },2000)
       }
       return isJPG;
     }
     const onFileUploaded = (rawData:ResponseType<ImageProps>)=>{
-      createMessage(`上传图片ID ${rawData.data._id}`,'success')
+      const FileInstance =createMessage(`上传图片ID ${rawData.data._id}`,'success')
+      setTimeout(()=>{
+        FileInstance.destroy()
+       },2000)
+    }
+    const onFileUploadedError = (rawData:ResponseType<ImageProps>)=>{
+      const fileErrorInstance = createMessage(`上传图片ID ${rawData.data}`,'error')
+      setTimeout(()=>{
+        fileErrorInstance.destroy()
+       },2000)
     }
     //以下为测试
     //id >2 的文章
@@ -60,7 +85,8 @@ export default defineComponent({
       list,
       bigColumnsLen,
       beforeUpload,
-      onFileUploaded
+      onFileUploaded,
+      onFileUploadedError
     };
   },
   components: {
