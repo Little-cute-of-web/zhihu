@@ -1,6 +1,6 @@
 <template>
   <div class="file-upload">
-    <div class="btn btn-container" @click.prevent="triggerUpload">
+    <div class="file-upload-container" @click.prevent="triggerUpload" v-bind="$attrs">
       <slot v-if="fileStatus === 'loading'" name="loading">
         <button class="btn btn-primary" disabled>正在上传...</button>
       </slot>
@@ -36,6 +36,7 @@ export default defineComponent({
     },
   },
   emits: ["file-uploaded", "file-uploaded-error"],
+  inheritAttrs:false,
   setup(props, ctx) {
     const fileInput = ref<null | HTMLInputElement>(null);
     const fileStatus = ref<UploadStatus>("ready");
@@ -96,4 +97,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.create-post-page .file-upload-container {
+  height: 200px;
+  cursor: pointer;
+}
+</style>

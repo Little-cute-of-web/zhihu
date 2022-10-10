@@ -11,20 +11,21 @@
         </div>
       </div>
     </section>
-    <uploader actions="/upload" :beforeUpload="beforeUpload" 
+    <!-- 测试loader -->
+    <!-- <uploader actions="/upload" :beforeUpload="beforeUpload" 
     @file-uploaded = "onFileUploaded"
     @file-uploaded-error="onFileUploadedError"
-    >
+    > -->
     <!-- <h2>点击上传</h2>
     <template #loading>
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </template> -->
-    <template #uploaded="dataProps">
+    <!-- <template #uploaded="dataProps">
       <img :src="dataProps.uploadedData.data?.url" width="500">
     </template>
-  </uploader>
+  </uploader> -->
     <h4 class="font-weight-bold text-center">发现精彩</h4>
     <column-list :list="list"></column-list>
   </div>
@@ -41,7 +42,7 @@ import ColumnList from "../components/ColumnList.vue";
 //导入createMessage
 import createMessage from "../components/createMessage";
 //导入Uploader
-import Uploader from "../components/Uploader.vue";
+// import Uploader from "../components/Uploader.vue";
 //导入模拟数据columnList
 // import {testData} from "../json/testData";
 export default defineComponent({
@@ -91,7 +92,7 @@ export default defineComponent({
   },
   components: {
     ColumnList,
-    Uploader
+    // Uploader
   },
 });
 </script>
