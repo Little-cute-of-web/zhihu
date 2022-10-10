@@ -116,6 +116,11 @@ export default createStore<GlobalDataProps>({
       localStorage.setItem('token', token)
       axios.defaults.headers.common.Authorization = `Bearer ${token}`
     },
+    logout(state){
+      state.token=''
+      localStorage.removeItem('token')
+      delete axios.defaults.headers.common.Authorization
+    },
     //获取当前用户登录的信息
     fetchCurrentUser(state, rawData) {
       state.user = { isLogin: true, ...rawData.data }
@@ -146,7 +151,7 @@ export default createStore<GlobalDataProps>({
     fetchColumns({ commit }) {
       //获取首页的专栏卡片内容
       // 对以上请求通过getAndCommit修改
-      getAndCommit('/columns', 'fetchColumns', commit)
+    return  getAndCommit('/columns', 'fetchColumns', commit)
       //第二次
       // const {data }= await axios.get('/columns')
       // commit('fetchColumns',data)
@@ -157,7 +162,7 @@ export default createStore<GlobalDataProps>({
     },
     //获取首页专栏的详细信息，post列表
     fetchColumn({ commit }, cid) {
-      getAndCommit(`/columns/${cid}`, 'fetchColumn', commit)
+    return  getAndCommit(`/columns/${cid}`, 'fetchColumn', commit)
       // const {data} = await axios.get(`/columns/${cid}`)
       // commit('fetchColumn',data)
       // axios.get(`/columns/${cid}`).then(res=>{
@@ -166,7 +171,7 @@ export default createStore<GlobalDataProps>({
     },
     //post详细信息
     fetchPosts({ commit }, cid) {
-      getAndCommit(`/columns/${cid}/posts`, 'fetchPosts', commit)
+     return getAndCommit(`/columns/${cid}/posts`, 'fetchPosts', commit)
       // const {data} = await axios.get(`/columns/${cid}/posts`)
       // commit('fetchPosts',data)
       // axios.get(`/columns/${cid}/posts`).then(res=>{

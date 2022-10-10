@@ -59,7 +59,7 @@ export default defineComponent({
     const user = computed(() => {
       return store.state.user;
     });
-    const token = computed(()=>store.state.token)
+    // const token = computed(()=>store.state.token)
     const error = computed(()=>store.state.error)
     const isLoading = computed(()=>store.state.isLoading)
     //watch error 执行createMessage
@@ -69,21 +69,22 @@ export default defineComponent({
         createMessage(message,'error')
       }
     })
-    onMounted(()=>{
+    //统一在beforeEach处理
+    // onMounted(()=>{
       // const messageInstance = createMessage('click here','default')
       // //2000后销毁
       // setTimeout(()=>{
       //   messageInstance.destroy()
       // },2000)
-      console.log(user.value.isLogin);
-      if(!user.value.isLogin&&token.value){
+      // console.log(user.value.isLogin);
+      // if(!user.value.isLogin&&token.value){
         //设置请求头
-        axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
-        //发送fetchCurrentUser请求  
-        store.dispatch('fetchCurrentUser')
+        // axios.defaults.headers.common.Authorization = `Bearer ${token.value}`
+        // 发送fetchCurrentUser请求  
+        // store.dispatch('fetchCurrentUser')
 
-      }
-    })
+      // }
+    // })
     return {
       user,
       isLoading,error
