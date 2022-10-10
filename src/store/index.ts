@@ -188,6 +188,10 @@ export default createStore<GlobalDataProps>({
     fetchCurrentUser({ commit }) {
       return getAndCommit('/user/current', 'fetchCurrentUser', commit)
     },
+    //创建文章
+    createPost({commit},payload){
+      return postAndCommit('/posts','createPost',commit,payload)
+    },
     //登录和获取用户信息
     loginAndFetch({ dispatch }, loginData) {
       return dispatch('LOGIN', loginData).then(() => {

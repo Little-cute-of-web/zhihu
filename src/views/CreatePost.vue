@@ -6,6 +6,7 @@
     <!-- Uploader组件 -->
     <uploader
       actions="/upload"
+      :beforeUpload=uploadCheck
       class="d-flex align-items-center justify-content-center bg-light text-secondary w-100 my-4"
     >
       <h2>点击上传头图</h2>
@@ -66,7 +67,11 @@ import ValidateForm from "../components/ValidateForm.vue";
 import ValidateInput, { RulesProps } from "../components/ValidateInput.vue";
 //导入Uploader组件
 import Uploader from "../components/Uploader.vue";
-import axios from "axios";
+// import axios from "axios";
+//导入help.ts
+import {beforeUploadCheck  } from "../utils/help";
+//导入createMessage
+import createMessage from "../components/createMessage";
 export default defineComponent({
   name: "CreatePost",
   components: {
@@ -110,45 +115,57 @@ export default defineComponent({
         }
       }
     };
-    const handleFileChange = (e: Event) => {
-      const target = e.target as HTMLInputElement;
-      const files = target.files;
-      // console.log(files);
-      if (files) {
-        const uploadedFile = files[0];
-        const formData = new FormData();
-        formData.append(uploadedFile.name, uploadedFile);
-        axios
-          .post("/upload", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+    const uploadCheck = (file:File)=>{
+      const res = beforeUploadCheck(file,{format:['image/jpeg','image/png'],size:1});
+      const {passed,error} = res;
+      if(error==='format'){
+       createMessage('上传图片只能是JPG/PNG格式','error',2000)
       }
-    };
+      if(error==='size'){
+        createMessage('上传图片太大','error',2000)
+      }
+      return passed;
+    }
+    // const handleFileChange = (e: Event) => {
+    //   const target = e.target as HTMLInputElement;
+    //   const files = target.files;
+    //   // console.log(files);
+    //   if (files) {
+    //     const uploadedFile = files[0];
+    //     const formData = new FormData();
+    //     formData.append(uploadedFile.name, uploadedFile);
+    //     axios
+    //       .post("/upload", formData, {
+    //         headers: {
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       })
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((e) => {
+    //         console.log(e);
+    //       });
+    //   }
+    // };
     return {
       titleVal,
       titleRules,
       contentVal,
       contentRules,
       onFormSubmit,
-      handleFileChange,
+      // handleFileChange,
+      uploadCheck
     };
   },
 });
 </script>
 
 <style scoped>
-.create-post-page .file-upload-container {
+/* .create-post-page .file-upload-container {
   height: 200px;
   cursor: pointer;
-}
+} */
 .create-post-page .file-upload-container img {
   width: 100%;
   height: 100%;
