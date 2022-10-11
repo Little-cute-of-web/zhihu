@@ -54,6 +54,7 @@ const createMessage = (message:string,type:MessageType,timeout?:number
       render(null,mountNode)
       document.body.removeChild(mountNode)
     }
+    // debugger;
     if(timeout){
       setTimeout(()=>{
         //卸载messageVnode

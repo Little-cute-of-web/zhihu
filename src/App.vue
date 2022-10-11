@@ -28,7 +28,7 @@
 <script lang="ts">
   //导入axios
   import axios from "axios";
-import { defineComponent, computed, onMounted ,watch} from "vue";
+import { defineComponent, computed,watch} from "vue";
 //导入store
 import { useStore } from "vuex";
 //导入全局数据泛型
@@ -66,7 +66,7 @@ export default defineComponent({
     watch(()=>error.value.status,()=>{
       const {status,message} = error.value
       if(status&&message){
-        createMessage(message,'error')
+        createMessage(message,'error',2000)
       }
     })
     //统一在beforeEach处理

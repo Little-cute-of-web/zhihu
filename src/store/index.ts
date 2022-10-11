@@ -21,24 +21,26 @@ export interface UserProps {
 export interface ImageProps {
   _id?: string;
   url?: string;
+  fitUrl?: string;
   createdAt?: string;
 }
 export interface ColumnProps {
   _id: string;
   title: string;
   avatar?: ImageProps;
+  // fitUrl?: string;
   description: string;
 }
 
 export interface PostProps {
-  id: number;
+  // _id?: string;
   title: string;
   excerpt?: string;
   content?: string;
-  image?: ImageProps;
-  createdAt: string;
+  image?: ImageProps | string;
+  // createdAt: string;
   column?: string;
-
+  author?: string;
 }
 
 export interface GlobalErrorProps {
@@ -63,7 +65,7 @@ const getAndCommit = async (url: string, mutationName: string, commit: Commit) =
   return data;
 
 }
-const postAndCommit = async (url: string, mutationName: string, commit: Commit, payload: any) => {
+const postAndCommit = async (url: string, mutationName: string, commit: Commit , payload: any) => {
   const { data } = await axios.post(url, payload);
   commit(mutationName, data)
   return data;
@@ -88,13 +90,14 @@ export default createStore<GlobalDataProps>({
     // bigColumnsLen(state) {
     //   return state.columns.filter(c => c._id > 2).length
     // },
+   
     getColumnsById: (state) => (id: string) => {
+      // debugger;
       const res = state.columns.find(item => {
         return item._id === id
       })
       return res;
-
-    },
+    }, 
     getPostsByCid: (state) =>
       (cid: string) => {
         const res = state.posts.filter(post => {
@@ -125,14 +128,15 @@ export default createStore<GlobalDataProps>({
     fetchCurrentUser(state, rawData) {
       state.user = { isLogin: true, ...rawData.data }
     },
-    CREATEPOST(state, newPost) {
+    createPost(state, newPost) {
       state.posts.push(newPost)
     },
     fetchColumns(state, rawData) {
       state.columns = rawData.data.list
     },
     fetchColumn(state, rawData) {
-      state.columns = [rawData.data]
+      state.columns = [rawData.data]   
+      // console.log(state.columns );
     },
     fetchPosts(state, rawData) {
       state.posts = rawData.data.list
@@ -147,7 +151,6 @@ export default createStore<GlobalDataProps>({
     }
   },
   actions: {
-
     fetchColumns({ commit }) {
       //获取首页的专栏卡片内容
       // 对以上请求通过getAndCommit修改
@@ -160,9 +163,9 @@ export default createStore<GlobalDataProps>({
       //   context.commit('fetchColumns',res.data)
       // })
     },
-    //获取首页专栏的详细信息，post列表
+    //获取首页专栏的详细信息，post列表 | 获取单个的column信息
     fetchColumn({ commit }, cid) {
-    return  getAndCommit(`/columns/${cid}`, 'fetchColumn', commit)
+      return getAndCommit(`/columns/${cid}`, 'fetchColumn', commit)
       // const {data} = await axios.get(`/columns/${cid}`)
       // commit('fetchColumn',data)
       // axios.get(`/columns/${cid}`).then(res=>{
@@ -181,7 +184,6 @@ export default createStore<GlobalDataProps>({
     //用户登录
     LOGIN({ commit }, payload) {
       // console.log(payload);
-
       return postAndCommit(`/user/login`, 'LOGIN', commit, payload)
     },
     //获取当前用户登录的信息
@@ -190,7 +192,7 @@ export default createStore<GlobalDataProps>({
     },
     //创建文章
     createPost({commit},payload){
-      return postAndCommit('/posts','createPost',commit,payload)
+      return postAndCommit(`/posts`,'createPost',commit,payload)
     },
     //登录和获取用户信息
     loginAndFetch({ dispatch }, loginData) {
@@ -198,7 +200,5 @@ export default createStore<GlobalDataProps>({
         return dispatch('fetchCurrentUser')
       })
     }
-  },
-  modules: {
   }
 })
