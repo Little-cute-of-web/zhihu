@@ -30,15 +30,16 @@ export interface ColumnProps {
   avatar?: ImageProps;
   // fitUrl?: string;
   description: string;
+  // createdAt: string;
 }
 
 export interface PostProps {
-  // _id?: string;
+  _id?: string;
   title: string;
   excerpt?: string;
   content?: string;
   image?: ImageProps | string;
-  // createdAt: string;
+  createdAt?: string;
   column?: string;
   author?: string;
 }

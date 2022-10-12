@@ -3,7 +3,7 @@
     <div class="column-info row mb-4 border-bottom pb-4 align-items-center">
       <div class="col-3 text-center">
         <img
-          :src="column.avatar && column.avatar.fitUrl"
+          :src="column?.avatar && column.avatar.fitUrl"
           :alt="column?.title"
           class="rounded-circle w-100"
         />
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onBeforeMount } from "vue";
+import { defineComponent, computed, onBeforeMount} from "vue";
 import { useRoute } from "vue-router";
 //导入store
 import { useStore } from "vuex";
@@ -66,13 +66,13 @@ export default defineComponent({
     // })
     //使用getters
     const column = computed(() => {
-      let selectColumn = store.getters.getColumnsById(currentId);
-      if (selectColumn) {
+      let selectColumn =  store.getters.getColumnsById(currentId)
+        if (selectColumn) {
         generateFitUrl(selectColumn, 100, 100);
-      }
+        }
       return selectColumn;
     });
-
+      
     const list = computed(() => {
       let res = store.getters.getPostsByCid(currentId);
       return res;

@@ -6,6 +6,7 @@ const Login = () => import('../views/Login.vue')
 const Sign = ()=>import('../views/SignUp.vue')
 const ColumnDetail = () => import('../views/ColumnDetail.vue')
 const CreatePost = () => import('../views/CreatePost.vue')
+const PostDetail = ()=>import('../views/PostDetail.vue')
 //导入store
 import store from "../store";
 const routes: Array<RouteRecordRaw> = [
@@ -42,6 +43,10 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiredLogin: true
     }
+  },{
+    path:'/posts:id',
+    name:'post',
+    component:PostDetail
   }
 ]
 const router = createRouter({
