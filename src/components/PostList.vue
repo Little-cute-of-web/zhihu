@@ -41,13 +41,8 @@ export default defineComponent({
       
       
     })
-    console.log('posts',posts);
-    // console.log(props.list);
-    
-    // const list= props.list
     return {
       posts
-      // list
     }
   }
 })

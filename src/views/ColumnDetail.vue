@@ -67,7 +67,7 @@ export default defineComponent({
     //使用getters
     const column = computed(() => {
       let selectColumn =  store.getters.getColumnById(currentId) as ColumnProps | undefined;
-      console.log('selectColumn',selectColumn);
+      // console.log('selectColumn',selectColumn);
       
         if (selectColumn) {
           addColumnAvatar(selectColumn, 100, 100);
@@ -78,7 +78,7 @@ export default defineComponent({
     
     const list = computed(() => {
       let res = store.getters.getPostsByCid(currentId);
-      console.log(res);
+      // console.log(res);
       return res;
     });
    
