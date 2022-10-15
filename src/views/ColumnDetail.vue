@@ -23,11 +23,11 @@ import { useRoute } from "vue-router";
 //导入store
 import { useStore } from "vuex";
 //导入store数据泛型
-import { GlobalDataProps } from "../store";
+import { GlobalDataProps ,ColumnProps} from "../store";
 // import { testData,testPosts } from "../json/testData";
 //导入组件
 import PostList from "../components/PostList.vue";
-import { generateFitUrl } from "@/utils/fitUrl";
+import { addColumnAvatar } from "@/utils/fitUrl";
 
 export default defineComponent({
   name: "ColumnDetail",
@@ -66,17 +66,23 @@ export default defineComponent({
     // })
     //使用getters
     const column = computed(() => {
-      let selectColumn =  store.getters.getColumnsById(currentId)
+      let selectColumn =  store.getters.getColumnById(currentId) as ColumnProps | undefined;
+      console.log('selectColumn',selectColumn);
+      
         if (selectColumn) {
-        generateFitUrl(selectColumn, 100, 100);
+          addColumnAvatar(selectColumn, 100, 100);
         }
       return selectColumn;
     });
-      
+    // console.log('column',column);
+    
     const list = computed(() => {
       let res = store.getters.getPostsByCid(currentId);
+      console.log(res);
       return res;
     });
+   
+    
     return {
       column,
       list,

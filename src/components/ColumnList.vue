@@ -18,6 +18,7 @@
 import { computed } from "@vue/reactivity";
 import { defineComponent, PropType } from "vue";
 import { ColumnProps } from "../store/index";
+import {  generateFitUrl } from "../utils/fitUrl";
 // export interface ColumnProps {
 //   id: number;
 //   title: string;
@@ -35,14 +36,15 @@ export default defineComponent({
   setup(props){
     const columnList = computed(()=>{
       return props.list.map(item=>{
-        if(!item.avatar){
-          // item.avatar = require('@/assets/column.jpg')
-          item.avatar ={
-            url:require('@/assets/column.jpg')
-          }
-        }else{
-          item.avatar.url = item.avatar.url+'?x-oss-process=image/resize,m_fixed,h_100,w_100'
-        }
+        // if(!item.avatar){
+        //   // item.avatar = require('@/assets/column.jpg')
+        //   item.avatar ={
+        //     url:require('@/assets/column.jpg')
+        //   }
+        // }else{
+        //   item.avatar.url = item.avatar.url+'?x-oss-process=image/resize,m_fixed,h_100,w_100'
+        // }
+        generateFitUrl(item,50,50)
         return item;
       })
     })

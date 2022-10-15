@@ -92,7 +92,7 @@ export default createStore<GlobalDataProps>({
     //   return state.columns.filter(c => c._id > 2).length
     // },
    
-    getColumnsById: (state) => (id: string) => {
+    getColumnById: (state) => (id: string) => {
       // debugger;
       const res = state.columns.find(item => {
         return item._id === id
